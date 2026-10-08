@@ -935,7 +935,7 @@ async function cargarBorradores(){
 }
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const nota1 = x => x.toFixed(1).replace('.',',');
+const nota1 = x => x.toFixed(1);
 const COLOR = ['var(--l0)','var(--l1)','var(--l2)','var(--l3)','var(--l4)'];
 
 /* ─────────────────────────── construcción ─────────────────────────── */
