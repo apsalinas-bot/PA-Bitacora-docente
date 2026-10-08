@@ -936,6 +936,7 @@ async function cargarBorradores(){
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nota1 = x => x.toFixed(1);
+const pto = v => String(v==null?'':v).replace(',','.');
 const COLOR = ['var(--l0)','var(--l1)','var(--l2)','var(--l3)','var(--l4)'];
 
 /* ─────────────────────────── construcción ─────────────────────────── */
@@ -1282,10 +1283,10 @@ window.addEventListener('beforeprint', ()=>{ cabeceraImpresion();
 function filaResumen(a, f){
   const r = publicadas[slug(f.f)], mio = f.f === a.f, nom = esc(f.f) + '<span class="ref"> · ' + f.c + '</span>';
   if(mio) return `<tr class="hoy"><td>${nom}</td>
-    <td class="n">${r? r.p + ' / ' + r.max : '—'}</td><td class="n">${r? r.nota : '—'}</td></tr>`;
+    <td class="n">${r? r.p + ' / ' + r.max : '—'}</td><td class="n">${r? pto(r.nota) : '—'}</td></tr>`;
   return `<tr><td>${nom}</td>
     <td class="n"><span class="velo">•• / ••</span></td>
-    <td class="n"><span class="velo">••,•</span></td></tr>`;
+    <td class="n"><span class="velo">••.•</span></td></tr>`;
 }
 function pintarAlumno(){
  const caja = $('#resultadoAlumno'); if(!YO || YO.i < 0) return;
@@ -1304,7 +1305,7 @@ function pintarAlumno(){
      + '</p>'; return; }
  caja.innerHTML = cab + `
   <div><span class="eyebrow" style="color:var(--ink-faint)">Nota de la Fase 1</span>
-   <div class="big">${esc(pub.nota)}<span style="font-size:22px;color:var(--ink-faint)">/ 20</span></div>
+   <div class="big">${esc(pto(pub.nota))}<span style="font-size:22px;color:var(--ink-faint)">/ 20</span></div>
    <p class="aviso" style="margin-top:4px">${esc(String(pub.p))} de ${esc(String(pub.max))} puntos</p></div>
   <table class="tabla" style="margin-top:12px"><thead><tr><th>Momento de la exposición</th>
    <th style="text-align:right">Peso</th><th style="text-align:right">Obtenido</th></tr></thead><tbody>
