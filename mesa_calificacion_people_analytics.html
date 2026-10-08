@@ -292,7 +292,7 @@ textarea:focus,select:focus,input:focus,button:focus-visible,summary:focus-visib
 <header class="top" id="barra">
  <div class="wrap">
   <div class="toprow">
-   <div class="mark"><div class="sq">ADP</div>
+   <div class="mark"><div class="sq">PA</div>
     <div><b>Mesa del Cliente</b><span>Fase 1 · Diagnóstico</span></div></div>
    <select class="firm" id="firma" aria-label="Consultora que expone"></select>
    <div class="clock" id="reloj">
@@ -316,7 +316,7 @@ textarea:focus,select:focus,input:focus,button:focus-visible,summary:focus-visib
 
  <!-- ───── portada: acceso por DNI ───── -->
  <section class="alumno card" id="portada">
-  <div class="eyebrow" style="color:var(--c5-ink)">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+  <div class="eyebrow" style="color:var(--c5-ink)">People Analytics · AD24-3171 · 2026-02</div>
   <h1 style="font-size:24px;letter-spacing:-.04em;margin:5px 0 4px">Mesa del Cliente · Fase 1 · Diagnóstico</h1>
   <p style="margin:0 0 14px;font-size:13.5px">Escribe tu DNI para entrar. Si estás matriculado en el curso verás
   la nota de tu consultora y el peso de cada momento; el docente entra a la mesa de calificación.</p>
@@ -333,7 +333,7 @@ textarea:focus,select:focus,input:focus,button:focus-visible,summary:focus-visib
 
  <!-- ───── vista del alumno ───── -->
  <section class="alumno card" id="vistaAlumno" hidden>
-  <div class="eyebrow" style="color:var(--c5-ink)">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+  <div class="eyebrow" style="color:var(--c5-ink)">People Analytics · AD24-3171 · 2026-02</div>
   <h1 style="font-size:24px;letter-spacing:-.04em;margin:5px 0 10px">Mesa del Cliente · Fase 1 · Diagnóstico</h1>
   <div id="resultadoAlumno"></div>
   <button class="btn ghost" id="salirAlumno" style="margin-top:14px;max-width:130px">Salir</button>
@@ -342,10 +342,10 @@ textarea:focus,select:focus,input:focus,button:focus-visible,summary:focus-visib
  <!-- ───── vista del docente ───── -->
  <div id="vistaDocente" hidden>
   <section class="hero">
-   <div><div class="eyebrow" style="color:var(--c1-ink)">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+   <div><div class="eyebrow" style="color:var(--c1-ink)">People Analytics · AD24-3171 · 2026-02</div>
    <div style="font-family:var(--f-d);font-weight:800;font-size:19px;letter-spacing:-.035em;color:var(--ink);margin-top:3px">Mesa del Cliente · Fase 1 · Diagnóstico</div></div>
    <div class="chips">
-    <span class="chip sky">20 min + preguntas</span>
+    <span class="chip sky">15 min + preguntas</span>
     <span class="chip sky">Formato libre</span>
     <span class="chip amber">Solo diagnóstico</span>
     <span class="chip" id="chipTotal"></span>
@@ -467,59 +467,59 @@ const SHA256 = (()=>{
 
 /* Acceso por DNI. Aquí no hay ningún DNI: solo el resultado de encadenar
    SHA-256 60000 veces con la sal del curso, y a quién corresponde (-1 = docente). */
-const SAL = "ADP-AD24-1072-2026-02::";
+const SAL = "PA-AD24-3171-2026-02::";
 const VUELTAS = 60000;
 const ACCESO = {
-"0c41df7da8d71136d5bfad7bfddc9e5c6fe2515c8505fdb49201bc8a2542c750": 38,
-"44128633664f84428221c7c6227d750599960a006736f31d678b1fce0801f652": 0,
-"274b957d777eea9364e808318e926afe70199423b9a2b6ab529a00a966c924e1": 1,
-"fb91cce9971a37d29e0449c46c26ed1a862b402efab9f7f7df2fcb8bb8cf8e02": 2,
-"d5852ecb1c39d029839f37f7e617d677fd8cc042fb657ba26d0d91d15871d259": 3,
-"644e41aa304a8db20bcc8b65665af69ff8818ee07386f709288273d337431587": 4,
-"c269e600700acff8929845d6b07c6768662ca5f18b70a7dad5e82064e6dc3cd7": 5,
-"aebf119b6624bae78060f519a7ef5bf725e8ce83a67dde11e0e0bdc644ef2fca": 6,
-"13db99a96bea97a150a38058530960d7b3a5ddc1a624fd20ebe95e420f9d8c3e": 7,
-"4994b19b6b73da3cffb00d0b279b1fb1f140073bbda9c280859b3c169c2c852b": 8,
-"6f204f605c3e9f0798158a75bc28ea5e0f5f46d58a2a082f8d2b67570a12202d": 9,
-"83d5520a79c9f62007a47b4f49dda3b070e290aac94f6dccee8ba6383a35df71": 10,
-"40a69a32dc8975adf9a7e6bbc36d7819a97236b966c68b98c5cbf867bd826231": 11,
-"973011a7e9c59204cee9044ee99e91965570d35210376c911b9ad763e68a33b1": 12,
-"a7babc2ff26bf3891cad5c23fe7bfb703d085ea3776987da1c92e2ce968bcdd9": 13,
-"c377574abbae5826846570076c886f3710704f88774099fe0a0887aa7dc38a94": 14,
-"375750223cccb68c866d031868ea4bd019bf7d399bc3232ad7a13edafa73c6c0": 15,
-"7c639bca20835b069ad3e7e304bd96c641a17f5010130b260934707649fc6201": 16,
-"541fbc40ee0356b420175e62447f1e6a825ae6636aa2547d19fd5f4cc266ead9": 17,
-"88c479d235bab87ddbc9d0f732e24070329569bc91a761e68e8fcf6dda37bbb2": 18,
-"cec7db99f3c19d7699db29d66708fd36d8f97ce1c97c3eef6d061afda013f6bd": 19,
-"8be71943e515bb465e02b304a6fa72f3c4541137c99a2421df30d5b605adf59f": 20,
-"f76cb6c37564c02e164f85342a253fb0ea6fee22d327d90b185697f0c6498874": 21,
-"2a6537e648b6b2f5ba9a4be89f750d0575ad691154f7a09021502dc32a7875ef": 22,
-"3179ed6d1e9fa22da677b6fcf29e3e8ef949773a96d07f4efb52c0b17f8e7cca": 23,
-"0b9ee8d6bcf461bedb5e44b770241b5460d18c4614562d77e7ac9c142857d3fe": 24,
-"13b9f45751ea5ce85ed446bb6e0458898369b219b18f7cb53d997414f631ac94": 25,
-"1050dbbb8c9a5f1192a997478de9e64549969ca67715defbf854c4edf6817a4c": 26,
-"06994c90792a7b99ce193832f40fcd929d466acfcc869478bce4f3c031411c94": 27,
-"5cf1cf9dfb3063264ba497d538c690a149800656fda58b91dc0f4b6b166339e8": 28,
-"e7b38b974baf063ce48b369ec375b3dbab3a00c0e23ed09aca807cbe5a2e3972": 29,
-"b61b62309a4c80ef3de05f6a5987c75e3669299819431f3a3634fd02d3ad8a34": 30,
-"615c2c1e71d029a6ea802158359f3ba58098e8b3599efaf9b2caad9ea5900b3e": 31,
-"2de2a6f4c3327dca09946c14cb490839e5005dd7afaa3d74802f988b5d7e324e": 32,
-"c63d8fa39c1d4cfd0d0f4af088c9e1979b41417cd6ef047f6a2ad8a8ed7c8979": 33,
-"cb3d064968c8a5a0da448ad5e11d81727d08782a8d5fe4641fdec3730955d5dd": 34,
-"d0257acb916074c41c4c3838a6d27858a96aab801772564bbf36abfb85a176ae": 35,
-"2d5d5f5ddd2314209f0c2f3b7fcb2794fc4d46a4ccbd256a9b33e079fd4931f7": 36,
-"6c33cd3d5bda96aa5bd36b99cfe11d04f891a4d1ce671e6f6c6e34264356c6cb": 37,
-"38fa5df91eaf4f6ed742f4ec2064cf989151e650e83e996bca03ab790518f242": 39,
-"9879529fa7bd88f634bbcd866523270ab666082a5b92fa551f909296ca9f4d36": 40,
-"5f7f561c1f7ac1ac64d628375b5821ff24d84daa5c017bc338555db78ccccbc7": 41,
-"6950746635b421dfd8441d06a62d71cd043df54a5bdc5c9bcfe146dab9886241": 42,
-"1273faabf80fd0c65d94f11994ccc75d7e7d7707454e8a23ca7cbf6849f03970": 43,
-"831fedcd1bcfa9bd9a3b84a76407d18c0375c16703dcb494ba268fd43861983c": 44,
-"cfd5a0f3ce8fd3e91aac6ed0bcaffaabdef5a845c0fe3abc774ec4cf13e772c6": 45,
-"fa3f2b9881f3953f805a75d592f860fe26700543ec19cde251585f9a7ed58006": 46,
-"6052f7439831869f443f5f6ce29caa2b8eaa8b57b6ccb4814179b54b187e5711": 47,
-"431c12628e50a5c8f395a3382f86497339cbc1645f6cc0a11b4d18957c8decb5": 48,
-"42806fdbb5a072ac7e38c5a198cb68ddcbc25a9aa2f2aa65d0dc1d970897f3e7": -1
+// PENDIENTE · falta la entrada del docente (valor -1): requiere su clave
+"8e02d110d24a68deda1b35f518ceade994e4e031c7803e4f1e73a98ceda6cbca": 0,
+"13b3e855ca373dafd3da4eb22acb83c560929f9ab84190a4e48a8a879b9dbed2": 1,
+"3fe3457e04bcd4fc6f0821d590c5b4474c27830bcd545e186b42123902e98507": 2,
+"3ff40b037954f985cd7918056aea2941bf7b23b5e70efc0753885c88a568515b": 3,
+"cec84b52cff57cbba9be7c2ef10aed2527043352eceae4d270e6ef4af0582f68": 4,
+"bf0b89448a740a67cd353db067647b86714afe5a0e73eb22d41e1a861791f066": 5,
+"0208859fb1cce934ccdeb9a2713493f51395bf9daab60df6cff8d011529d9c2c": 6,
+"5e47caa0e9fd691110f26eaec3fce2155b0e82b329700ecb86b8220e2dc63c32": 7,
+"511a3a49a16ad144bcde69a084f6e6c577bf821c1fea7ae99bb15b526bcb3bd5": 8,
+"8dea744c8ebe9dbedd85423639139a9a479155ff42ae0f13a540d1c0a60a4a8b": 9,
+"cc438e030b327d37d80f86c1b0175aee85e2ef092f7dc453807210254d83cfd6": 10,
+"97a15d92832a8f2f78c4c9c2d932f104abad59e1d0e8e99f54e2b8b29889e602": 11,
+"d93d1372eca139993c7ffb07a1615efb64c2e6ed1938f47b4ed4f09aad0362fa": 12,
+"5cba87b5a89ab8dbcc9cea2522b4a17dbe93e0d5829a9ae9262b549f92be7294": 13,
+"2c10b7bfb50140e483b3aa14167a21a6f86b1e6fa27ae4d09e7b9693243f9e03": 14,
+"89162289bd506d4648cf25091ad9037aa916014b9196fdcc348ab3cb6fbaee0e": 15,
+"dfe07638acbad22f0f53c8ab8c2e9154c8bfbe3602ab9d7943386a44d9a80569": 16,
+"9393f4c21e8ff5d781ce46adf612011bc333719ae2174645345cc895540bb9dc": 17,
+"757eed7936aff0828183572f4bc3de387b84ffb1464d48bd15c2a95a9bd1294a": 18,
+"af26c3fe1f324939ad39f2f43bef35facc5480981d441301aa0161d3e2bacadf": 19,
+"7a8e8905b9d2f839f433b797bdbef886caad293e322476e9f3610523924a17b0": 20,
+"bc5b128609d995f230a7cd8a4fe548c178fa8d35089b1e37aacd13a04ddc71e8": 21,
+"9c73c8db658a03ed1c26bb66e5a46bd476d47a8211e80124fd4d7dcce8bd94aa": 22,
+"17624af01a8e1a4a91fd3c1c51d7339326c7d330d511c65160e12c21099e99d1": 23,
+"086031b785b9b26bbeb5fe822901610beef8b30ce1eb56f75628ff8f2604b2f0": 24,
+"3341e84a213c0040c9630c1cbb4ac3b15eb8a3d13fcf6a5a24e34980ef27fb1b": 25,
+"776dcc0803a4f3fd0c1bf307ce4810b28cbfb0676aa55a50de3dbb07424bf454": 26,
+"5e9e03a29351104e34998fb62450516cdb45dd1c2ff88db36c39bea0d9dce61d": 27,
+"9ccd98034b0f8d2c7f58e2426926d419eab40fd01a3128eb6f35dadc901e87bf": 28,
+"548478c1f4f108f2906c555017f9d02b3d8ae1a563bc8b49799908be42f0cd9f": 29,
+"5aa50a012f97fd804fd9b52d0cf04d8e714d1a840480a0a8ca905d30fba1a660": 30,
+"67780da0f4b4558988e39823eabe3d2cbb6865ba7e9c6876b212a9008efc639e": 31,
+"79892f73eb5c6f2532fd76c9976fcde1819fc5374454c5de2110f41b413d92e0": 32,
+"8e17860b9103b18d03ae85ae6f97724303ee946f8ea904b515568ffb904d4aee": 33,
+"127f0c03fb7358c000adf445f1285c9215810efd0755d24501d91c118678c30a": 34,
+"757baf48831f13381303e12caca88431ef576cf9e3d5cbd68a80dedd90860a71": 35,
+"2bda7659324c1215933aedf791d81848c035ec068d7b8914364a19269f5c1def": 36,
+"8fc2e28d3355104bc843c1729bcb1a527e0e71757249035f8863785a56026099": 37,
+"b66dea1e3006806abc43320d5643d6adbde4710ef6270a482c5970ee3729a87d": 38,
+"fbeffd9a05025d2a324d426f52d6f508aa4d6da461155b29362872ef8b83bc97": 39,
+"44c9c9f9d1e80658b2d61f2b65d7e32f1f9ec70d8829222df8349b6134629643": 40,
+"a59dc0da230f943627212d6c54832dfa598024a8d8cc1d83a6c20668127a0e22": 41,
+"6f44f6ada1b0626f85aa0d3946478406583d60e237a751f1b8cd0b28081a3556": 42,
+"6aca6c54ae498b2856e6a0d766ae1ee9f9ffe54274795e4816c6e59c0102b254": 43,
+"75798fe80d74f0f987c5ba853c35ff6b3be02ceb4d958e002f7bdf87f7336478": 44,
+"a553dddcaabce47b1448cf6f3384143281b93370b465df62430fef6269f89569": 45,
+"498fdea6fa1f17aac65301bc9fe7174f90f1a2e0507f0560821f34c1524eb37c": 46,
+"73834f16de63dc72d0a48a13acf1ad96ea9ffc38d62a5643718277768a3c72a4": 47,
+"17905537ef62a2504140a159fc1543e9d0f894a036ab7acd48edc994ec915e50": 48
 };
 
 const FIRMAS = [
@@ -706,7 +706,7 @@ function informePDF(f){
 
  /* cabecera */
  d.setFont('helvetica','bold'); d.setFontSize(7.2); d.setTextColor(...TENUE);
- d.text('ADMINISTRACION DE PRODUCCION Y OPERACIONES  ·  AD24-1072  ·  2026-02', M, y+3);
+ d.text('PEOPLE ANALYTICS  ·  AD24-3171  ·  2026-02', M, y+3);
  y += 7;
  txt('Mesa del Cliente · Fase 1 · Diagnóstico', M, W, 17, 'bold', TINTA, 1.1);
  y += 1.5;
@@ -820,7 +820,7 @@ const slug = f => f.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
                    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const integrantes = f => NOMINA.filter(a=>a.f===f);
 
-const KEY='adp-mesa-e1-v2', KSES='adp-mesa-sesion', KBIN='adp-mesa-binkey';
+const KEY='pa-mesa-e1-v1', KSES='pa-mesa-sesion', KBIN='pa-mesa-binkey';
 const BIN = {id:'6ac7015affd5d1605357dc34', base:'https://api.jsonbin.io/v3/b/'};
 let ALM = 'local', FALLO = '';           // 'artefacto' · 'bin' · 'local'
 const EN_ARCHIVO = (location.protocol === 'file:');
@@ -1056,7 +1056,7 @@ function pintar(){
 function cabeceraImpresion(){
  const m = FIRMAS.find(x=>x.f===actual), r = calc(actual);
  const e0 = est(), sinCal = AP.filter(a=>e0.n[a.id]===undefined).map(a=>a.id);
- $('#imp').innerHTML = `<div class="et">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+ $('#imp').innerHTML = `<div class="et">People Analytics · AD24-3171 · 2026-02</div>
   <h1>Mesa del Cliente · Fase 1 · Diagnóstico</h1>
   <div class="sub">Exposición ante el cliente · 15 minutos y ronda de preguntas · los cinco momentos
   corresponden al correo «Consideraciones · Exposiciones con el cliente» del 29 de setiembre</div>
@@ -1251,7 +1251,7 @@ $('#pdf').addEventListener('click', async ()=>{
  const blob = informePDF(actual);
  if(blob){
   const hoy = new Date().toISOString().slice(0,10);
-  const nom = 'ADP_fase1_' + slug(actual) + '_' + hoy + '.pdf';
+  const nom = 'PA_fase1_' + slug(actual) + '_' + hoy + '.pdf';
   await entregar(blob, nom, 'Informe PDF entregado');
   return;
  }
@@ -1268,12 +1268,12 @@ $('#excel').addEventListener('click', async ()=>{
    XLSX.utils.book_append_sheet(lb, XLSX.utils.aoa_to_sheet(filaDetalle()), 'Detalle por apartado');
    const buf = XLSX.write(lb, {bookType:'xlsx', type:'array'});
    await entregar(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),
-     `ADP_fase1_notas_${hoy}.xlsx`, 'Libro .xlsx entregado');
+     `PA_fase1_notas_${hoy}.xlsx`, 'Libro .xlsx entregado');
    return;
   }catch(err){ /* cae al CSV */ }
  }
  await entregar(new Blob(['﻿'+aCSV(filaAlumnos())], {type:'text/csv;charset=utf-8;'}),
-   `ADP_fase1_notas_${hoy}.csv`, 'Archivo .csv entregado: ábrelo con Excel');
+   `PA_fase1_notas_${hoy}.csv`, 'Archivo .csv entregado: ábrelo con Excel');
 });
 window.addEventListener('beforeprint', ()=>{ cabeceraImpresion();
  try{ $('#congru').open = true; }catch(e){} });
