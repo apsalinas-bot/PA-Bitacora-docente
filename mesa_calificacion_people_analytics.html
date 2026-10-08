@@ -1,0 +1,1461 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mesa del Cliente · People Analytics · Entrega 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Mismo sistema visual del curso: Plus Jakarta Sans de despliegue, Inter de lectura,
+   IBM Plex Mono para rótulos y cifras. Cada uno de los cinco momentos del correo
+   lleva su propio color, para que la hoja se lea de un vistazo. Modo claro único. */
+:root{
+  color-scheme:light;
+  --canvas:#F4F6F9; --panel:#FFFFFF; --sunk:#EEF2F7; --veil:#F8FAFC;
+  --line:rgba(15,32,56,.08); --line-2:rgba(15,32,56,.14); --line-3:rgba(15,32,56,.24);
+  --ink:#0F2038; --ink-dim:#5A6E86; --ink-faint:#8496AC; --ink-ghost:#AEBCCD;
+  --c1:#EB6834; --c1-ink:#C2410C; --c1-soft:#FEF0E9;
+  --c2:#7C3AED; --c2-ink:#6D28D9; --c2-soft:#F3EDFE;
+  --c3:#0EA5A5; --c3-ink:#0F766E; --c3-soft:#E6F7F6;
+  --c4:#E11D48; --c4-ink:#BE123C; --c4-soft:#FDEBEF;
+  --c5:#2563EB; --c5-ink:#1D4ED8; --c5-soft:#E9F0FE;
+  --c6:#B45309; --c6-ink:#92400E; --c6-soft:#FBF1E3;
+  --l0:#94A3B8; --l1:#BE123C; --l2:#B45309; --l3:#0F766E; --l4:#15803D;
+  --l0s:#EFF2F6; --l1s:#FDEBEF; --l2s:#FBF1E3; --l3s:#E6F7F6; --l4s:#E8F6EC;
+  --f-d:'Plus Jakarta Sans','Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;
+  --f-b:'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+  --f-m:'IBM Plex Mono','SF Mono',ui-monospace,Menlo,Consolas,monospace;
+  --r-xs:6px; --r-sm:10px; --r:14px; --r-lg:18px;
+  --sh:0 1px 2px rgba(15,32,56,.04), 0 10px 28px -18px rgba(15,32,56,.28);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--canvas);color:var(--ink-dim);font-family:var(--f-b);
+  font-size:14px;line-height:1.52;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-family:var(--f-d);color:var(--ink);text-wrap:balance}
+button,select,textarea,input{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0 40px}
+.num{font-family:var(--f-m);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-m);font-size:10px;letter-spacing:.17em;text-transform:uppercase;font-weight:600}
+
+/* ───── barra superior ───── */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(1.6) blur(8px);border-bottom:1px solid var(--line-2)}
+.top .wrap{padding-block:9px 0}
+.toprow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.mark{display:flex;align-items:center;gap:9px;min-width:0}
+.mark .sq{width:33px;height:33px;border-radius:var(--r-xs);background:var(--ink);color:#fff;flex:0 0 auto;
+  display:grid;place-items:center;font-family:var(--f-d);font-weight:800;font-size:12px;letter-spacing:-.02em}
+.mark b{display:block;font-family:var(--f-d);font-weight:800;font-size:15px;color:var(--ink);
+  line-height:1.1;letter-spacing:-.028em}
+.mark span{display:block;font-family:var(--f-m);font-size:9.5px;color:var(--ink-faint);
+  letter-spacing:.12em;text-transform:uppercase}
+select.firm{flex:1 1 230px;min-width:0;background:var(--veil);border:1px solid var(--line-2);
+  border-radius:var(--r-sm);padding:7px 10px;font-weight:600;font-size:13.5px;color:var(--ink)}
+.clock{display:flex;align-items:center;gap:7px;background:var(--veil);border:1px solid var(--line-2);
+  border-radius:var(--r-sm);padding:4px 7px}
+.clock .t{font-family:var(--f-m);font-weight:600;font-size:18px;color:var(--ink);
+  font-variant-numeric:tabular-nums;min-width:64px;text-align:center;line-height:1.2}
+.clock.warn .t{color:var(--c6-ink)} .clock.bad .t{color:var(--c4-ink)}
+.clock .fase{font-family:var(--f-m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-faint);text-align:center}
+.mini{border:1px solid var(--line-2);background:var(--panel);color:var(--ink-dim);border-radius:var(--r-xs);
+  padding:4px 9px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.mini:hover{border-color:var(--c5);color:var(--c5-ink)}
+.score{display:flex;align-items:baseline;gap:5px;margin-left:auto}
+.score .lb{font-family:var(--f-m);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:600;align-self:center}
+.score .big{font-family:var(--f-d);font-weight:800;font-size:28px;color:var(--c5-ink);line-height:.95;
+  font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.score .of{font-size:12px;color:var(--ink-faint);font-weight:600}
+.score .pts{font-family:var(--f-m);font-size:11.5px;color:var(--ink-dim);margin-left:7px}
+.rail{display:flex;gap:2px;margin:9px 0}
+.rail i{display:block;height:6px;background:var(--sunk);border-radius:3px;overflow:hidden;position:relative}
+.rail i::after{content:'';position:absolute;inset:0 auto 0 0;width:var(--w,0);background:var(--c,var(--line-3));
+  border-radius:3px;transition:width .22s ease}
+
+/* ───── encabezado ejecutivo ───── */
+.hero{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 20px;margin-top:18px}
+.hero h1{font-weight:800;font-size:clamp(22px,3.4vw,30px);letter-spacing:-.042em;line-height:1.08;
+  margin-top:5px;max-width:20ch}
+.hero .lede{font-size:13.5px;color:var(--ink-dim);max-width:46ch;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-left:auto}
+.chip{font-family:var(--f-m);font-size:10.5px;font-weight:600;border-radius:var(--r-xs);padding:4px 9px;
+  background:var(--panel);color:var(--ink-dim);border:1px solid var(--line-2);letter-spacing:.03em}
+.chip.sky{background:var(--c5-soft);color:var(--c5-ink);border-color:transparent}
+.chip.amber{background:var(--c1-soft);color:var(--c1-ink);border-color:transparent}
+
+/* tira de momentos */
+.tira{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:14px}
+@media (max-width:760px){ .tira{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.tira a{display:block;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--mc);
+  border-radius:var(--r-sm);padding:8px 10px;text-decoration:none;box-shadow:var(--sh)}
+.tira a:hover{border-color:var(--mc);border-left-color:var(--mc)}
+.tira .k{font-family:var(--f-m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mc)}
+.tira .n{display:block;font-family:var(--f-d);font-weight:700;font-size:12.6px;color:var(--ink);
+  line-height:1.2;margin:2px 0 3px;letter-spacing:-.015em}
+.tira .v{font-family:var(--f-m);font-size:11.5px;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.tira .v b{color:var(--ink)}
+
+/* ───── disposición ───── */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 312px;gap:18px;align-items:start;margin-top:16px}
+@media (max-width:980px){ .cols{grid-template-columns:minmax(0,1fr)} }
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 116px);display:grid;gap:12px}
+@media (max-width:980px){ .side{position:static;top:auto} }
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:13px;box-shadow:var(--sh)}
+.card>h3{font-family:var(--f-m);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:9px;font-weight:600}
+
+/* mapa de congruencia */
+.congru summary{font-family:var(--f-d);font-weight:700;font-size:14px;color:var(--ink);cursor:pointer;
+  list-style:none;letter-spacing:-.015em}
+.congru summary::-webkit-details-marker{display:none}
+.congru summary::after{content:'  mostrar';font-family:var(--f-m);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--c5-ink);font-weight:600}
+.congru[open] summary::after{content:'  ocultar'}
+.mapa{width:100%;min-width:560px;border-collapse:collapse;font-size:12.4px;margin-top:9px}
+.mapa th{text-align:left;font-family:var(--f-m);font-size:9.3px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-faint);padding:0 8px 6px;border-bottom:1px solid var(--line-2);font-weight:600}
+.mapa td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.mapa tr:last-child td{border-bottom:0}
+.mapa td.n{text-align:right;font-family:var(--f-m);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.mapa td.mo{border-left:3px solid var(--mc)}
+.mapa .dicho{color:var(--ink-dim);font-style:italic}
+.mapa .ref{font-family:var(--f-m);font-size:10.5px;color:var(--ink-faint)}
+
+/* ───── momentos ───── */
+.pasos{display:grid;gap:14px}
+.paso{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  box-shadow:var(--sh);scroll-margin-top:120px}
+.pasohead{display:flex;flex-wrap:wrap;align-items:center;gap:6px 11px;padding:11px 14px;
+  background:var(--ms);border-bottom:1px solid var(--line)}
+.pn{font-family:var(--f-m);font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--mc)}
+.pasohead h2{font-family:var(--f-d);font-weight:800;font-size:16.5px;letter-spacing:-.028em;
+  flex:1 1 180px;min-width:0}
+.ptos{font-family:var(--f-m);font-size:11px;font-weight:600;color:var(--ink-dim);white-space:nowrap}
+.ptos b{color:var(--mc);font-size:13px}
+.dicho{margin:0;padding:9px 14px;border-bottom:1px solid var(--line);background:var(--veil);
+  font-size:13px;color:var(--ink-dim)}
+.dicho b{font-family:var(--f-m);font-size:9.3px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:600;margin-right:6px}
+.dicho q{font-style:italic;color:var(--ink);quotes:'«' '»'}
+.cuerpo{padding:12px 14px;display:grid;gap:10px}
+.sinapnota{font-size:12.8px;color:var(--ink-dim);margin:0}
+
+/* ───── apartados ───── */
+.ap{border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 12px;background:var(--panel)}
+.ap[data-v]{border-color:var(--line-2)}
+.aphead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ap .sec{font-family:var(--f-m);font-size:11px;font-weight:600;color:var(--mc)}
+.ap h3{font-family:var(--f-d);font-weight:700;font-size:14.5px;letter-spacing:-.02em;flex:1 1 170px;min-width:0}
+.peso{font-family:var(--f-m);font-size:10px;font-weight:600;color:var(--c1-ink);background:var(--c1-soft);
+  border-radius:var(--r-xs);padding:2px 7px;white-space:nowrap}
+.preg{color:var(--ink-dim);font-size:12.8px;margin:4px 0 9px;font-style:italic}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.scale button{background:var(--sunk);border:1px solid transparent;border-radius:var(--r-xs);padding:6px 3px;
+  cursor:pointer;display:grid;gap:0;justify-items:center;transition:background .13s ease,border-color .13s ease}
+.scale button .p{font-family:var(--f-m);font-weight:600;font-size:13.5px;color:var(--ink-dim);line-height:1.15}
+.scale button .l{font-size:8.8px;color:var(--ink-faint);text-align:center;line-height:1.2}
+.scale button:hover{border-color:var(--line-3)}
+.scale button[aria-checked="true"] .p,.scale button[aria-checked="true"] .l{color:#fff}
+.scale button[data-p="0"][aria-checked="true"]{background:var(--l0)}
+.scale button[data-p="1"][aria-checked="true"]{background:var(--l1)}
+.scale button[data-p="2"][aria-checked="true"]{background:var(--l2)}
+.scale button[data-p="3"][aria-checked="true"]{background:var(--l3)}
+.scale button[data-p="4"][aria-checked="true"]{background:var(--l4)}
+.desc{margin:8px 0 0;font-size:12.5px;color:var(--ink);background:var(--veil);border-radius:var(--r-xs);
+  padding:8px 10px;border-left:2px solid var(--line-2)}
+.desc.vacio{color:var(--ink-faint);font-style:italic}
+.desc[data-v="0"]{background:var(--l0s);border-left-color:var(--l0)}
+.desc[data-v="1"]{background:var(--l1s);border-left-color:var(--l1)}
+.desc[data-v="2"]{background:var(--l2s);border-left-color:var(--l2)}
+.desc[data-v="3"]{background:var(--l3s);border-left-color:var(--l3)}
+.desc[data-v="4"]{background:var(--l4s);border-left-color:var(--l4)}
+details.ev{margin-top:8px}
+details.ev summary{cursor:pointer;font-family:var(--f-m);font-size:10px;font-weight:600;color:var(--c5-ink);
+  list-style:none;letter-spacing:.11em;text-transform:uppercase}
+details.ev summary::-webkit-details-marker{display:none}
+details.ev summary::before{content:'+ '}
+details.ev[open] summary::before{content:'– '}
+details.ev ul{margin:7px 0 0;padding-left:17px;font-size:12.3px;color:var(--ink-dim)}
+details.ev li{margin-bottom:3px}
+.oye{font-size:12.3px;margin:7px 0 0;color:var(--c5-ink)}
+.noes{font-size:12.1px;color:var(--c1-ink);background:var(--c1-soft);border-radius:var(--r-xs);
+  padding:7px 10px;margin:7px 0 0}
+textarea,input[type=text],input[type=password],input[type=email]{width:100%;background:var(--veil);
+  border:1px solid var(--line-2);border-radius:var(--r-xs);padding:7px 9px;font-size:12.6px;resize:vertical}
+textarea{margin-top:8px}
+::placeholder{color:var(--ink-ghost)}
+textarea:focus,select:focus,input:focus,button:focus-visible,summary:focus-visible{
+  outline:2px solid var(--c5);outline-offset:1px}
+.eco{display:none;font-size:12.3px;color:var(--ink);margin:7px 0 0;padding:6px 9px;
+  border-left:2px solid var(--line-3)}
+
+/* ───── marcador lateral ───── */
+.marc{display:grid;gap:6px}
+.mrow{display:grid;grid-template-columns:26px minmax(0,1fr) 58px;align-items:center;gap:6px;
+  background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.mrow .s{font-family:var(--f-m);font-size:10.5px;color:var(--ink-faint);font-weight:600}
+.mrow .mid{min-width:0}
+.mrow .t{display:block;font-size:11.5px;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow:hover .t{color:var(--c5-ink)}
+.mrow .v{font-family:var(--f-m);font-size:10.5px;color:var(--ink-dim);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pips{display:flex;gap:2px;margin-top:2px}
+.pips span{height:3px;flex:1;background:var(--sunk);border-radius:2px}
+.mrow[data-v="0"] .pips span.on{background:var(--l0)} .mrow[data-v="1"] .pips span.on{background:var(--l1)}
+.mrow[data-v="2"] .pips span.on{background:var(--l2)} .mrow[data-v="3"] .pips span.on{background:var(--l3)}
+.mrow[data-v="4"] .pips span.on{background:var(--l4)}
+
+.chk{display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:12.3px;cursor:pointer}
+.chk input{margin-top:3px;accent-color:var(--c4);width:15px;height:15px;flex:0 0 auto}
+.nota-forma{font-size:11.3px;color:var(--c1-ink);background:var(--c1-soft);border-radius:var(--r-xs);
+  padding:6px 9px;margin:0 0 8px}
+.acciones{display:grid;gap:6px}
+.btn{background:var(--c5);color:#fff;border:0;border-radius:var(--r-xs);padding:9px 12px;
+  font-weight:600;font-size:12.8px;cursor:pointer}
+.btn:hover{background:var(--c5-ink)}
+.btn.ghost{background:transparent;border:1px solid var(--line-2);color:var(--ink-dim)}
+.btn.ghost:hover{border-color:var(--c5);color:var(--c5-ink)}
+.btn.pub{background:var(--c3-ink)} .btn.pub:hover{background:var(--c3)}
+.aviso{font-size:11.2px;color:var(--ink-faint);margin:9px 0 0;line-height:1.45}
+.candado{display:grid;gap:7px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);
+  background:var(--ink);color:#fff;padding:9px 16px;border-radius:var(--r-xs);font-size:13px;font-weight:600;
+  z-index:80;box-shadow:var(--sh);max-width:90vw;text-align:center}
+.tabla{width:100%;border-collapse:collapse;font-size:11.8px;margin-top:2px}
+.tabla th{text-align:left;font-family:var(--f-m);font-size:9.3px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-faint);padding:0 5px 5px;border-bottom:1px solid var(--line-2);font-weight:600}
+.tabla td{padding:5px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.tabla td.n{text-align:right;font-family:var(--f-m)}
+.tabla tr.hoy td{background:var(--c5-soft);font-weight:600;color:var(--ink)}
+
+/* ───── vista del alumno ───── */
+.alumno{max-width:680px;margin:28px auto 0}
+.alumno .big{font-family:var(--f-d);font-weight:800;font-size:58px;letter-spacing:-.05em;color:var(--c5-ink);
+  line-height:.9;font-variant-numeric:tabular-nums;margin-top:2px}
+.alumno .big span{margin-left:7px;letter-spacing:0}
+.alumno .meta{display:flex;flex-wrap:wrap;gap:12px 22px;margin:12px 0 0}
+.alumno .meta div span{display:block;font-family:var(--f-m);font-size:9.3px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.alumno .meta div b{font-size:13.5px;color:var(--ink);font-weight:600}
+.velo{display:inline-block;filter:blur(5px);opacity:.6;user-select:none;pointer-events:none;letter-spacing:.14em}
+.dev{white-space:pre-wrap;font-size:12.6px;color:var(--ink-dim);background:var(--veil);
+  border-radius:var(--r-xs);padding:11px 13px;margin-top:12px;border-left:2px solid var(--line-3);
+  max-height:50vh;overflow:auto}
+
+/* ───── hoja de impresión ───── */
+.imp{display:none}
+@media print{
+  @page{size:A4;margin:13mm}
+  .top,.hero,.tira,.aviso,details.ev,.candado{display:none!important}
+  .congru summary::after{content:''}
+  .side{display:grid;position:static;top:auto;gap:8px;margin-top:8px}
+  .side .card:has(.marc),.side .card:has(.acciones){display:none!important}
+  .chk:has(input:not(:checked)){display:none}
+  .scale button:not([aria-checked="true"]){display:none}
+  .scale{grid-template-columns:auto;justify-content:start}
+  .scale button{cursor:default;padding:3px 13px}
+  textarea{display:none}
+  .eco:not(:empty){display:block}
+  body{background:#fff;font-size:10.4px;color:#1a1a1a}
+  .wrap{max-width:none;padding:0}
+  .cols{grid-template-columns:1fr;gap:0;margin-top:0}
+  .imp{display:block;margin-bottom:11px}
+  .imp .et{font-family:var(--f-m);font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+    color:#1D4ED8;font-weight:600}
+  .imp h1{font-weight:800;font-size:21px;margin:3px 0 2px;letter-spacing:-.04em}
+  .imp .sub{font-size:10.4px;color:#555}
+  .imp .caja{display:flex;gap:15px;flex-wrap:wrap;border-top:2px solid #0F2038;border-bottom:1px solid #bbb;
+    padding:7px 0;margin-top:9px}
+  .imp .caja div span{display:block;font-family:var(--f-m);font-size:8.2px;text-transform:uppercase;
+    letter-spacing:.12em;color:#777}
+  .imp .caja div b{font-size:14px;color:#000;font-family:var(--f-m)}
+  .imp .falta{font-size:9.6px;color:#C2410C;margin:6px 0 0}
+  .ap,.card{break-inside:avoid;box-shadow:none}
+  .paso{break-inside:auto;margin-bottom:8px;border:1px solid #bbb;border-radius:0;box-shadow:none}
+  .pasohead,.dicho{break-after:avoid}
+  .pasohead{padding:6px 10px}
+  .pasohead h2{font-size:13.5px}
+  .dicho{padding:6px 10px}
+  .cuerpo{padding:8px 10px;gap:6px}
+  .ap{border:1px solid #ddd;padding:7px 9px;border-radius:0}
+  .ap h3{font-size:12px}
+  .desc{padding:5px 8px;font-size:10.2px}
+  .card{border:1px solid #bbb;border-radius:0;page-break-inside:avoid}
+  .congru{border:1px solid #bbb;padding:8px}
+  .mapa{min-width:0;font-size:9.6px}
+  .mapa td,.mapa th{padding:3px 5px}
+  .marc{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top" id="barra">
+ <div class="wrap">
+  <div class="toprow">
+   <div class="mark"><div class="sq">ADP</div>
+    <div><b>Mesa del Cliente</b><span>Fase 1 · Diagnóstico</span></div></div>
+   <select class="firm" id="firma" aria-label="Consultora que expone"></select>
+   <div class="clock" id="reloj">
+    <div><div class="t" id="t">20:00</div><div class="fase" id="fase">Exposición</div></div>
+    <button class="mini" id="play">Iniciar</button>
+    <button class="mini" id="reset">Reiniciar</button>
+   </div>
+   <button class="mini" id="salirDocente">Salir</button>
+   <div class="score">
+    <span class="lb">Nota</span>
+    <span class="big num" id="nota">—</span><span class="of">/ 20</span>
+    <span class="pts" id="pts">0 / 36 pts</span>
+   </div>
+  </div>
+  <div class="rail" id="rail" aria-hidden="true"></div>
+ </div>
+</header>
+
+<div class="wrap">
+ <div class="imp" id="imp"></div>
+
+ <!-- ───── portada: acceso por DNI ───── -->
+ <section class="alumno card" id="portada">
+  <div class="eyebrow" style="color:var(--c5-ink)">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+  <h1 style="font-size:24px;letter-spacing:-.04em;margin:5px 0 4px">Mesa del Cliente · Fase 1 · Diagnóstico</h1>
+  <p style="margin:0 0 14px;font-size:13.5px">Escribe tu DNI para entrar. Si estás matriculado en el curso verás
+  la nota de tu consultora y el peso de cada momento; el docente entra a la mesa de calificación.</p>
+  <label for="dni" class="eyebrow" style="color:var(--ink-faint);display:block;margin-top:4px">Documento de identidad</label>
+  <input type="text" id="dni" inputmode="numeric" autocomplete="off" maxlength="12"
+   placeholder="8 dígitos" style="margin-top:5px;max-width:220px;letter-spacing:.14em;font-family:var(--f-m)">
+  <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
+   <button class="btn" id="entrar" style="max-width:150px">Entrar</button>
+   <span id="estadoAcceso" class="aviso" style="margin:0"></span>
+  </div>
+  <p class="aviso">La página no guarda ningún DNI: solo comprueba una huella del tuyo contra la lista de clases
+  del curso. Si el tuyo no entra, escríbeme y lo reviso.</p>
+ </section>
+
+ <!-- ───── vista del alumno ───── -->
+ <section class="alumno card" id="vistaAlumno" hidden>
+  <div class="eyebrow" style="color:var(--c5-ink)">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+  <h1 style="font-size:24px;letter-spacing:-.04em;margin:5px 0 10px">Mesa del Cliente · Fase 1 · Diagnóstico</h1>
+  <div id="resultadoAlumno"></div>
+  <button class="btn ghost" id="salirAlumno" style="margin-top:14px;max-width:130px">Salir</button>
+ </section>
+
+ <!-- ───── vista del docente ───── -->
+ <div id="vistaDocente" hidden>
+  <section class="hero">
+   <div><div class="eyebrow" style="color:var(--c1-ink)">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+   <div style="font-family:var(--f-d);font-weight:800;font-size:19px;letter-spacing:-.035em;color:var(--ink);margin-top:3px">Mesa del Cliente · Fase 1 · Diagnóstico</div></div>
+   <div class="chips">
+    <span class="chip sky">20 min + preguntas</span>
+    <span class="chip sky">Formato libre</span>
+    <span class="chip amber">Solo diagnóstico</span>
+    <span class="chip" id="chipTotal"></span>
+   </div>
+  </section>
+
+  <nav class="tira" id="tira"></nav>
+
+  <div class="cols">
+   <main>
+    <details class="card congru" id="congru">
+     <summary>Cómo se traduce mi correo en la rúbrica</summary>
+     <div style="overflow-x:auto"><table class="mapa" id="tmapa"></table></div>
+     <p class="aviso">Correo «Consideraciones · Exposiciones con el cliente», 29 de setiembre. Los pesos son
+     los de la rúbrica original del TIF y no se tocaron.</p>
+    </details>
+
+    <div class="pasos" id="pasos" style="margin-top:14px"></div>
+   </main>
+
+   <aside class="side">
+    <section class="card">
+     <h3>Marcador por momento</h3>
+     <div class="marc" id="marc"></div>
+    </section>
+
+    <section class="card">
+     <h3>Observaciones de forma</h3>
+     <p class="nota-forma" id="notaForma"></p>
+     <div id="flags"></div>
+     <textarea id="roles" rows="2" placeholder="Quién expuso y quién respondió las preguntas…"></textarea>
+     <p class="eco" id="eco-roles"></p>
+     <textarea id="preguntas" rows="3" placeholder="Preguntas del cliente y cómo las respondieron…"></textarea>
+     <p class="eco" id="eco-preguntas"></p>
+    </section>
+
+    <section class="card" id="cierre">
+     <h3>Cierre</h3>
+     <div class="acciones" id="acciones">
+      <button class="btn" id="borrador">Guardar borrador</button>
+      <p class="aviso" id="estadoBorrador" style="margin:0 0 2px"></p>
+      <div id="zonaClave" hidden style="display:grid;gap:5px">
+       <label for="claveBin" class="aviso" style="margin:0">Llave de escritura del almacén · queda solo en este navegador, nunca en el archivo</label>
+       <input type="password" id="claveBin" placeholder="Pega aquí tu llave" autocomplete="off">
+       <button class="btn ghost" id="probar" hidden>Probar el almacén</button>
+       <button class="btn ghost" id="publico" hidden>Abrir el almacén a los alumnos</button>
+      </div>
+      <button class="btn pub" id="publicar">Publicar notas a los alumnos</button>
+      <button class="btn" id="pdf">Exportar a PDF</button>
+      <button class="btn ghost" id="excel">Exportar a Excel</button>
+      <button class="btn ghost" id="copiar">Copiar la devolución</button>
+      <button class="btn ghost" id="copiarTodo">Copiar todo lo calificado</button>
+      <button class="btn ghost" id="pegarTodo">Pegar lo calificado</button>
+      <div id="zonaPegar" hidden style="display:grid;gap:6px">
+       <textarea id="pegado" rows="3" placeholder="Pega aquí lo que copiaste en el otro navegador…"></textarea>
+       <button class="btn" id="cargarPegado">Cargar</button>
+      </div>
+      <button class="btn ghost" id="limpiar">Limpiar esta consultora</button>
+     </div>
+     <p class="aviso" id="avisoExport"></p>
+     <table class="tabla" id="consolidado"></table>
+    </section>
+   </aside>
+  </div>
+ </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+/* SHA-256 compacto (dominio público, FIPS 180-4) sobre cadenas UTF-8 → hex. */
+const SHA256 = (()=>{
+ const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+ const rr=(x,n)=>(x>>>n)|(x<<(32-n));
+ function bytes(str){
+  const out=[]; for(let i=0;i<str.length;i++){
+   let c=str.charCodeAt(i);
+   if(c<0x80) out.push(c);
+   else if(c<0x800){ out.push(0xc0|(c>>6), 0x80|(c&63)); }
+   else if(c>=0xd800 && c<0xdc00){ const c2=str.charCodeAt(++i);
+    const cp=0x10000+((c-0xd800)<<10)+(c2-0xdc00);
+    out.push(0xf0|(cp>>18), 0x80|((cp>>12)&63), 0x80|((cp>>6)&63), 0x80|(cp&63)); }
+   else { out.push(0xe0|(c>>12), 0x80|((c>>6)&63), 0x80|(c&63)); }
+  } return out;
+ }
+ return function sha256(msg){
+  const m = bytes(msg), bl = m.length*8;
+  m.push(0x80); while((m.length%64)!==56) m.push(0);
+  for(let i=7;i>=0;i--) m.push((i>=4? Math.floor(bl/Math.pow(2,8*i)) : (bl>>>(8*i)))&255);
+  let H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const w=new Array(64);
+  for(let p=0;p<m.length;p+=64){
+   for(let i=0;i<16;i++) w[i]=(m[p+4*i]<<24)|(m[p+4*i+1]<<16)|(m[p+4*i+2]<<8)|m[p+4*i+3];
+   for(let i=16;i<64;i++){
+    const s0=rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3);
+    const s1=rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10);
+    w[i]=(w[i-16]+s0+w[i-7]+s1)|0;
+   }
+   let [a,b,c,d,e,f,g,h]=H;
+   for(let i=0;i<64;i++){
+    const S1=rr(e,6)^rr(e,11)^rr(e,25), ch=(e&f)^((~e)&g);
+    const t1=(h+S1+ch+K[i]+w[i])|0;
+    const S0=rr(a,2)^rr(a,13)^rr(a,22), maj=(a&b)^(a&c)^(b&c);
+    const t2=(S0+maj)|0;
+    h=g; g=f; f=e; e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0;
+   }
+   H=[(H[0]+a)|0,(H[1]+b)|0,(H[2]+c)|0,(H[3]+d)|0,(H[4]+e)|0,(H[5]+f)|0,(H[6]+g)|0,(H[7]+h)|0];
+  }
+  return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('');
+ };
+})();
+
+/* Acceso por DNI. Aquí no hay ningún DNI: solo el resultado de encadenar
+   SHA-256 60000 veces con la sal del curso, y a quién corresponde (-1 = docente). */
+const SAL = "ADP-AD24-1072-2026-02::";
+const VUELTAS = 60000;
+const ACCESO = {
+"0c41df7da8d71136d5bfad7bfddc9e5c6fe2515c8505fdb49201bc8a2542c750": 38,
+"44128633664f84428221c7c6227d750599960a006736f31d678b1fce0801f652": 0,
+"274b957d777eea9364e808318e926afe70199423b9a2b6ab529a00a966c924e1": 1,
+"fb91cce9971a37d29e0449c46c26ed1a862b402efab9f7f7df2fcb8bb8cf8e02": 2,
+"d5852ecb1c39d029839f37f7e617d677fd8cc042fb657ba26d0d91d15871d259": 3,
+"644e41aa304a8db20bcc8b65665af69ff8818ee07386f709288273d337431587": 4,
+"c269e600700acff8929845d6b07c6768662ca5f18b70a7dad5e82064e6dc3cd7": 5,
+"aebf119b6624bae78060f519a7ef5bf725e8ce83a67dde11e0e0bdc644ef2fca": 6,
+"13db99a96bea97a150a38058530960d7b3a5ddc1a624fd20ebe95e420f9d8c3e": 7,
+"4994b19b6b73da3cffb00d0b279b1fb1f140073bbda9c280859b3c169c2c852b": 8,
+"6f204f605c3e9f0798158a75bc28ea5e0f5f46d58a2a082f8d2b67570a12202d": 9,
+"83d5520a79c9f62007a47b4f49dda3b070e290aac94f6dccee8ba6383a35df71": 10,
+"40a69a32dc8975adf9a7e6bbc36d7819a97236b966c68b98c5cbf867bd826231": 11,
+"973011a7e9c59204cee9044ee99e91965570d35210376c911b9ad763e68a33b1": 12,
+"a7babc2ff26bf3891cad5c23fe7bfb703d085ea3776987da1c92e2ce968bcdd9": 13,
+"c377574abbae5826846570076c886f3710704f88774099fe0a0887aa7dc38a94": 14,
+"375750223cccb68c866d031868ea4bd019bf7d399bc3232ad7a13edafa73c6c0": 15,
+"7c639bca20835b069ad3e7e304bd96c641a17f5010130b260934707649fc6201": 16,
+"541fbc40ee0356b420175e62447f1e6a825ae6636aa2547d19fd5f4cc266ead9": 17,
+"88c479d235bab87ddbc9d0f732e24070329569bc91a761e68e8fcf6dda37bbb2": 18,
+"cec7db99f3c19d7699db29d66708fd36d8f97ce1c97c3eef6d061afda013f6bd": 19,
+"8be71943e515bb465e02b304a6fa72f3c4541137c99a2421df30d5b605adf59f": 20,
+"f76cb6c37564c02e164f85342a253fb0ea6fee22d327d90b185697f0c6498874": 21,
+"2a6537e648b6b2f5ba9a4be89f750d0575ad691154f7a09021502dc32a7875ef": 22,
+"3179ed6d1e9fa22da677b6fcf29e3e8ef949773a96d07f4efb52c0b17f8e7cca": 23,
+"0b9ee8d6bcf461bedb5e44b770241b5460d18c4614562d77e7ac9c142857d3fe": 24,
+"13b9f45751ea5ce85ed446bb6e0458898369b219b18f7cb53d997414f631ac94": 25,
+"1050dbbb8c9a5f1192a997478de9e64549969ca67715defbf854c4edf6817a4c": 26,
+"06994c90792a7b99ce193832f40fcd929d466acfcc869478bce4f3c031411c94": 27,
+"5cf1cf9dfb3063264ba497d538c690a149800656fda58b91dc0f4b6b166339e8": 28,
+"e7b38b974baf063ce48b369ec375b3dbab3a00c0e23ed09aca807cbe5a2e3972": 29,
+"b61b62309a4c80ef3de05f6a5987c75e3669299819431f3a3634fd02d3ad8a34": 30,
+"615c2c1e71d029a6ea802158359f3ba58098e8b3599efaf9b2caad9ea5900b3e": 31,
+"2de2a6f4c3327dca09946c14cb490839e5005dd7afaa3d74802f988b5d7e324e": 32,
+"c63d8fa39c1d4cfd0d0f4af088c9e1979b41417cd6ef047f6a2ad8a8ed7c8979": 33,
+"cb3d064968c8a5a0da448ad5e11d81727d08782a8d5fe4641fdec3730955d5dd": 34,
+"d0257acb916074c41c4c3838a6d27858a96aab801772564bbf36abfb85a176ae": 35,
+"2d5d5f5ddd2314209f0c2f3b7fcb2794fc4d46a4ccbd256a9b33e079fd4931f7": 36,
+"6c33cd3d5bda96aa5bd36b99cfe11d04f891a4d1ce671e6f6c6e34264356c6cb": 37,
+"38fa5df91eaf4f6ed742f4ec2064cf989151e650e83e996bca03ab790518f242": 39,
+"9879529fa7bd88f634bbcd866523270ab666082a5b92fa551f909296ca9f4d36": 40,
+"5f7f561c1f7ac1ac64d628375b5821ff24d84daa5c017bc338555db78ccccbc7": 41,
+"6950746635b421dfd8441d06a62d71cd043df54a5bdc5c9bcfe146dab9886241": 42,
+"1273faabf80fd0c65d94f11994ccc75d7e7d7707454e8a23ca7cbf6849f03970": 43,
+"831fedcd1bcfa9bd9a3b84a76407d18c0375c16703dcb494ba268fd43861983c": 44,
+"cfd5a0f3ce8fd3e91aac6ed0bcaffaabdef5a845c0fe3abc774ec4cf13e772c6": 45,
+"fa3f2b9881f3953f805a75d592f860fe26700543ec19cde251585f9a7ed58006": 46,
+"6052f7439831869f443f5f6ce29caa2b8eaa8b57b6ccb4814179b54b187e5711": 47,
+"431c12628e50a5c8f395a3382f86497339cbc1645f6cc0a11b4d18957c8decb5": 48,
+"42806fdbb5a072ac7e38c5a198cb68ddcbc25a9aa2f2aa65d0dc1d970897f3e7": -1
+};
+
+const FIRMAS = [
+ {f:"HUMANA S.A.C.",        c:"PA-01", e:"Retail Andino S.A.C.",          cl:"Mag. Carolina Vargas"},
+ {f:"Soluciones S.A.C.",    c:"PA-02", e:"Contacta BPO S.A.",             cl:"Ing. Renzo Figueroa"},
+ {f:"DDP Consultants",      c:"PA-03", e:"Minera Q'ori S.A.",             cl:"Ing. Silvia Manrique"},
+ {f:"Febres Evolta S.A.C.", c:"PA-04", e:"Banco Altiplano",               cl:"Lic. Manuel Paredes"},
+ {f:"Talensight AQP",       c:"PA-05", e:"Nexo Labs",                     cl:"Ana Lucía Chávez"},
+ {f:"Próxima",              c:"PA-06", e:"Grupo Educativo San Isidro",    cl:"Mag. Teresa Ocampo"}
+];
+const NOM = ["No entregado","Insuficiente","En proceso","Logrado","Excelente"];
+const AP = [
+{id:"M1",x:2,paso:1,tit:"Encargo entendido",
+ preg:"¿Quedó claro a quién atienden, en qué contexto y qué les pidieron resolver?",
+ oye:"Lo que pedí: «cuenten brevemente quién es la empresa, en qué contexto está y qué les pidió resolver».",
+ evid:["La empresa descrita por lo que hace y por quiénes trabajan ahí, no por lo que dice su web",
+  "La dotación, el régimen o la estructura de puestos, si sitúan el encargo y se usan después",
+  "La pregunta de negocio enunciada en una oración, como problema del cliente",
+  "Quién decide con la respuesta: nombre del cargo, no «la empresa»"],
+ noEs:"No es recitar la ficha del caso. Es que quien escucha entienda a quién tiene delante y qué le duele.",
+ niv:["Presentaron una ficha copiada: no se entiende qué hace la empresa, quiénes trabajan ahí, ni qué les pidieron.",
+  "Se entiende la empresa, pero el encargo queda como tarea del curso y el contexto no aporta nada al diagnóstico.",
+  "La empresa y el encargo quedan claros y situados, aunque algún dato del contexto no se usa después.",
+  "En dos minutos se entiende a quién atienden, qué está en juego y quién decidirá con esto, y cada dato del contexto reaparece sosteniendo un hallazgo."]},
+{id:"M2",x:1,paso:2,tit:"Trazabilidad y tratamiento de los datos",
+ preg:"¿Se sabe qué le pidieron al cliente, qué recibieron, qué hicieron con lo que no llegó y bajo qué condiciones trataron datos de personas?",
+ oye:"Lo que pedí: «qué información le pidieron al cliente, qué les llegó y cómo la analizaron».",
+ evid:["La bitácora de la ventana de consulta, que es anexo obligatorio: fecha, pregunta literal y respuesta",
+  "La finalidad declarada al cliente y las condiciones que el cliente puso por escrito",
+  "La distinción entre el dato que entregó el cliente y el que el equipo estimó o construyó",
+  "Lo que se pidió y no llegó, declarado, junto con lo que se hizo en su lugar",
+  "Al menos una cifra del diagnóstico trazada hasta el archivo y la carta de origen"],
+ noEs:"No es el acta de las reuniones del equipo, ni una lámina de buenas intenciones sobre privacidad. Es de dónde salen las cifras y con qué permiso se usaron.",
+ niv:["No se dice de dónde salen los datos, o se presentan cifras sin fuente, o se muestran datos que identifican personas.",
+  "Se menciona que hubo pedidos al cliente, pero no se distingue el dato recibido del supuesto por el equipo, y el tratamiento de datos personales no se declara.",
+  "Se declara qué se pidió y qué llegó, y hay una mención del tratamiento de datos, aunque no se dice qué quedó sin responder ni qué condición puso el cliente.",
+  "Cualquier cifra se puede seguir hasta su origen, se distingue el dato del cliente del estimado, lo que no llegó se declara junto con lo que se hizo en su lugar, y las condiciones del cliente sobre el uso de los datos se citan y se respetan."]},
+{id:"M3",x:5,paso:3,tit:"Hallazgos con evidencia",
+ preg:"¿Los hallazgos responden al encargo y están sostenidos con datos del cliente?",
+ oye:"Lo que pedí: «los hallazgos más importantes, siempre respaldados con datos o evidencia».",
+ evid:["Dónde se concentra el problema, señalado sobre la población con su denominador declarado",
+  "El indicador definido con fórmula, periodo y denominador, no solo nombrado",
+  "Al menos un hallazgo que contradiga o matice lo que el cliente creía",
+  "La comprobación de que el hallazgo no es un efecto de la composición del grupo",
+  "El tamaño de cada grupo del que se habla, sobre todo en los cortes pequeños"],
+ noEs:"No es mostrar todos los gráficos que salieron. Es sostener tres cosas que el cliente no sabía, cada una con su dato al lado.",
+ niv:["Se afirman problemas sin dato, o se presentan gráficos que no responden al encargo.",
+  "Hay hallazgos con datos, pero describen lo que el cliente ya decía y ninguno lo contradice.",
+  "Los hallazgos responden al encargo y están sostenidos, aunque falta declarar el denominador o el tamaño de algún grupo.",
+  "Cada hallazgo responde al encargo, trae su dato, su denominador y su tamaño de grupo, al menos uno corrige lo que el cliente creía, y se descarta que sea un efecto de la composición."]},
+{id:"M4",x:4,paso:4,tit:"Causa demostrada",
+ preg:"¿Explican por qué ocurre, descartan las explicaciones alternativas y eligen cuál importa más?",
+ oye:"Lo que pedí: «las causas detrás de esos problemas y cuáles consideran más importantes (y por qué)».",
+ evid:["El mecanismo contado paso a paso: qué lleva a qué, no una lista de factores",
+  "La hipótesis del cliente puesta a prueba y descartada con datos, no ignorada",
+  "El documento, la norma o el vacío de norma que sostiene la causa, cuando existe",
+  "El criterio con el que se ordenan las causas, declarado antes de ordenarlas",
+  "Lo que no se puede afirmar con estas bases, dicho en voz alta"],
+ noEs:"No es nombrar una causa plausible. Es mostrar el mecanismo y por qué no son las otras.",
+ niv:["Se enuncia una causa sin evidencia, o se confunde una correlación con una causa.",
+  "Se proponen causas respaldadas, pero no se descarta ninguna alternativa ni se dice cuál pesa más.",
+  "Se descarta alguna alternativa y se ordenan las causas, aunque el criterio de orden no se declara o el mecanismo queda implícito.",
+  "El mecanismo se explica paso a paso, la hipótesis del cliente se pone a prueba y se descarta con datos, las causas se ordenan con un criterio declarado y se dice qué no se puede afirmar."]},
+{id:"M5",x:1,paso:5,tit:"Costo y siguiente paso",
+ preg:"¿Le pusieron número a lo que está en juego y dijeron qué atacan primero?",
+ oye:"Lo que pedí: «qué le está costando o arriesgando hoy la empresa, y qué van a atacar en la siguiente etapa».",
+ evid:["El costo o el riesgo cuantificado con los datos del caso y con su supuesto declarado",
+  "El proceso o la causa que se intervendrá primero, elegido frente a otras opciones",
+  "El criterio con el que se eligió, declarado antes de la elección",
+  "A quién alcanza y a quién deja fuera lo que proponen atacar"],
+ noEs:"No es proponer soluciones: el alcance era el diagnóstico. Es decir cuánto duele y por dónde se empieza.",
+ niv:["No se dice qué le cuesta al cliente, ni qué sigue.",
+  "Se afirma que el problema es grave pero sin cifra, o se anuncia qué sigue sin justificar por qué eso y no otra cosa.",
+  "Hay cifra del costo o del riesgo y hay un siguiente paso, pero falta el criterio que lo elige frente a otras opciones.",
+  "El costo o el riesgo está cuantificado con los datos del caso y su supuesto, y el siguiente paso se elige con un criterio explícito frente a alternativas."]}
+];
+const PASOS = [
+ {n:1, t:"El cliente y su encargo",
+  cita:"cuenten brevemente quién es la empresa, en qué contexto está y qué les pidió resolver"},
+ {n:2, t:"Cómo lo trabajaron",
+  cita:"qué información le pidieron al cliente, qué les llegó y cómo la analizaron"},
+ {n:3, t:"Qué encontraron",
+  cita:"los hallazgos más importantes, siempre respaldados con datos o evidencia"},
+ {n:4, t:"Por qué pasa",
+  cita:"las causas detrás de esos problemas y cuáles consideran más importantes (y por qué)"},
+ {n:5, t:"Qué significa para el cliente",
+  cita:"qué le está costando o arriesgando hoy la empresa, y qué van a atacar en la siguiente etapa"}
+];
+const FLAGS = [
+ "Se pasó de los 15 minutos",
+ "Presentó soluciones: el alcance era solo el diagnóstico",
+ "Afirmaciones sin respaldo de datos",
+ "El apoyo visual no se ajusta al perfil del cliente",
+ "No quedó claro quién responde en la ronda de preguntas",
+ "La bitácora de la ventana de consulta no se entregó o está incompleta",
+ "Mostró en pantalla un dato que permite identificar a una persona"
+];
+
+/* Nómina oficial del curso y su firma consultora, tomadas de las actas de
+   constitución entregadas en la Semana 2. */
+const ROLES = {so:'Socio a cargo', co:'Coordinador de proyecto',
+  ep:'Responsable de ética y datos personales', rd:'Responsable de datos',
+  ex:'Analista de exploración y visualización', mo:'Analista de modelado',
+  de:'Consultor de decisión', in:'Diseñador de la intervención'};
+const NOMINA = [
+ ["CUEVA JARAMILLO GABRIEL EDUARDO","72238898","HUMANA S.A.C.","so"],
+ ["CARBAJAL ZEBALLOS ADRIAN FABRIZIO","74166305","HUMANA S.A.C.","co"],
+ ["RAMIREZ ALATRISTA MARIO SEBASTIAN","72465224","HUMANA S.A.C.","ep"],
+ ["VARGAS QUINTANILLA ANDRES","73424419","HUMANA S.A.C.","rd"],
+ ["MATICORENA RODRIGUEZ CAMILA","73869274","HUMANA S.A.C.","ex"],
+ ["SAMOS APAZA FERNANDA GABRIELA","72569183","HUMANA S.A.C.","mo"],
+ ["ORTIZ VILLANUEVA MARIA FERNANDA","72861837","HUMANA S.A.C.","de"],
+ ["LOAIZA BALLON NICOLE FRANCESCA","72939758","HUMANA S.A.C.","in"],
+
+ ["RIVERA GUERRA VALERIA GABRIELA","75676574","Soluciones S.A.C.","so"],
+ ["CORDOVA LIZARAZO MARCELO DANIEL","71821423","Soluciones S.A.C.","co"],
+ ["MOSCOSO RODRIGUEZ JORGE ANDREE","72389101","Soluciones S.A.C.","ep"],
+ ["SILVA VALDIVIA RODRIGO SEBASTIAN","71220736","Soluciones S.A.C.","rd"],
+ ["PACHECO TAPIA ADRIANA BELEN","71254672","Soluciones S.A.C.","ex"],
+ ["CABRERA HUANQUI NICOLE JOANN","71872085","Soluciones S.A.C.","mo"],
+ ["CHAVEZ QUEVEDO DANIELA ALEXIA","73214476","Soluciones S.A.C.","de"],
+ ["SUAREZ PAUCAR JADHIRA ADELITH","74074042","Soluciones S.A.C.","in"],
+
+ ["MONTOYA MANRIQUE CAMILA GABRIELA","","DDP Consultants","so"],
+ ["PORTUGAL PACHAS ANA CECILIA","","DDP Consultants","co"],
+ ["CELDAN PEDRAZA ARIANE MIRIAM","","DDP Consultants",""],
+ ["GIRON LAURA MYRON FERNANDO","","DDP Consultants",""],
+ ["MONTESINOS SALAZAR NOELIA TERESA","","DDP Consultants",""],
+ ["OTAZU MAMANI SHANTAL EVELYN","","DDP Consultants",""],
+ ["PAREDES TURPO MARIA FERNANDA","","DDP Consultants",""],
+ ["VENTURA MACHACA ROSA PALOMA","","DDP Consultants",""],
+
+ ["VALENCIA VALDIVIA ASTRID VIVIANA","74947975","Febres Evolta S.A.C.","so"],
+ ["HUANCA VELIZ LUIS ENRIQUE","74500683","Febres Evolta S.A.C.","co"],
+ ["GRANADOS VILCA PALOMA CAMILA","70616228","Febres Evolta S.A.C.","ep"],
+ ["MONTESINOS ESTRADA FERNANDO JOSE","73028140","Febres Evolta S.A.C.","rd"],
+ ["GUTIERREZ PAREDES VIVIANA ARLEN","74166578","Febres Evolta S.A.C.","ex"],
+ ["CHIOCK ZEVALLOS FHENG SEBASTIAN","70817629","Febres Evolta S.A.C.","mo"],
+ ["PACHAS CALDERON DIEGO GIOVANNY","72477142","Febres Evolta S.A.C.","de"],
+ ["CAHUAPAZA RAFAEL DAYSON EDWIN","76203959","Febres Evolta S.A.C.","in"],
+
+ ["ALVAREZ VELASQUEZ FLAVIO CESAR","73025803","Talensight AQP","so"],
+ ["RIOS GONZALES GABRIELA MILAGROS","72693794","Talensight AQP","co"],
+ ["HANCO APAZA LUCIANA LIZ","76545308","Talensight AQP","ep"],
+ ["DIA DE LA VEGA ABEL ELIAS","73088605","Talensight AQP","rd"],
+ ["CORNEJO CARPIO ANA LUCIA","71027968","Talensight AQP","ex"],
+ ["GONZALEZ VILLALBA ISABELLA MARIA","73378579","Talensight AQP","ex"],
+ ["JACHO HANCCO FRANK","","Talensight AQP","mo"],
+ ["BEGAZO LLORENTE ANA BELEN","71930104","Talensight AQP","de"],
+ ["APAZA CHURA ANGEL ROLANDO","75198367","Talensight AQP","in"],
+
+ ["BUENO KEMPER ANGEL GABRIEL","70554366","Próxima","so"],
+ ["GOMEZ CHIPANA FRANK JHORDAN","76237055","Próxima","co"],
+ ["CUADROS APONTE RENATO JOAO","72629882","Próxima","ep"],
+ ["DEL CARPIO SALCEDO ANGIE ALEXANDRA","73079169","Próxima","rd"],
+ ["FARFAN VARGAS CLAUDIA VERENICE","71932527","Próxima","ex"],
+ ["GOMEZ MERCADO BRYAN ANTHONY","71981675","Próxima","mo"],
+ ["GONZALES SANCHEZ ALESSANDRO JESUS","71781479","Próxima","de"],
+ ["ADCO CHURATA ESTEFANO MAURICIO","76410773","Próxima","in"]
+].map(([n,c,f,r])=>({n, c, f, r, rol:ROLES[r]}));
+
+/* Informe en PDF generado en el navegador, para que el enlace del artefacto no
+   dependa del cuadro de impresión (que el visor bloquea). */
+const MOMCOL = {1:[37,99,235], 2:[180,83,9], 3:[14,165,165], 4:[225,29,72], 5:[124,58,237]};
+const NIVCOL = [[148,163,184],[190,18,60],[180,83,9],[15,118,110],[21,128,61]];
+const TINTA = [15,32,56], GRIS = [90,110,134], TENUE = [132,150,172];
+
+function informePDF(f){
+ if(!window.jspdf || !window.jspdf.jsPDF) return null;
+ const {jsPDF} = window.jspdf;
+ const d = new jsPDF({unit:'mm', format:'a4'});
+ const M = 15, W = 210 - M*2;
+ const e = datos[f] || vacio(), r = calc(f), m = FIRMAS.find(x=>x.f===f);
+ let y = M;
+
+ const salto = (alto)=>{ if(y + alto > 297 - M){ d.addPage(); y = M; } };
+ const txt = (s, x, ancho, tam, estilo, color, interl)=>{
+  d.setFont('helvetica', estilo||'normal'); d.setFontSize(tam);
+  d.setTextColor(...(color||TINTA));
+  const lineas = d.splitTextToSize(String(s), ancho);
+  const h = tam*0.3528*(interl||1.25);
+  lineas.forEach(l=>{ salto(h); d.text(l, x, y + tam*0.3528*0.85); y += h; });
+ };
+
+ /* cabecera */
+ d.setFont('helvetica','bold'); d.setFontSize(7.2); d.setTextColor(...TENUE);
+ d.text('ADMINISTRACION DE PRODUCCION Y OPERACIONES  ·  AD24-1072  ·  2026-02', M, y+3);
+ y += 7;
+ txt('Mesa del Cliente · Fase 1 · Diagnóstico', M, W, 17, 'bold', TINTA, 1.1);
+ y += 1.5;
+ txt('Exposición ante el cliente · 15 minutos y ronda de preguntas · los cinco momentos corresponden '
+   + 'al correo «Consideraciones · Exposiciones con el cliente» del 29 de setiembre',
+   M, W, 8, 'normal', GRIS, 1.3);
+ y += 2.5;
+ d.setDrawColor(...TINTA); d.setLineWidth(.6); d.line(M, y, M+W, y); y += 4.5;
+
+ /* ficha */
+ const ficha = [['Consultora', m.f], ['Caso', m.c + ' · ' + m.e], ['Cliente', m.cl],
+   ['Integrantes', String(integrantes(f).length)],
+   ['Puntaje', (r? r.p : 0) + ' / ' + MAXP], ['Nota', (r? nota1(r.nota) : '—') + ' / 20']];
+ const anchoF = W/3, y0 = y;
+ ficha.forEach((c, i)=>{
+  const col = i % 3, fil = Math.floor(i/3);
+  const x = M + col*anchoF, yy = y0 + fil*13;
+  d.setFont('helvetica','normal'); d.setFontSize(6.4); d.setTextColor(...TENUE);
+  d.text(c[0].toUpperCase(), x, yy+3);
+  d.setFont('helvetica','bold'); d.setFontSize(9.4); d.setTextColor(...TINTA);
+  d.splitTextToSize(c[1], anchoF-4).slice(0,2).forEach((l,k)=> d.text(l, x, yy+7.6+k*4));
+ });
+ y = y0 + 27;
+ d.setDrawColor(200,208,218); d.setLineWidth(.2); d.line(M, y-3, M+W, y-3);
+
+ const pend = AP.filter(a=>e.n[a.id]===undefined);
+ if(pend.length){
+  txt('Calificación incompleta: quedan sin nivel ' + pend.map(a=>a.id).join(', ') + '.',
+    M, W, 8, 'bold', [194,65,12], 1.3);
+  y += 2;
+ }
+
+ /* un bloque por momento */
+ PASOS.forEach(p=>{
+  const aps = porPaso(p.n), col = MOMCOL[p.n];
+  salto(34);
+  y += 3;
+  d.setFillColor(...col); d.rect(M, y, 1.6, 7.5, 'F');
+  d.setFont('helvetica','bold'); d.setFontSize(6.6); d.setTextColor(...col);
+  d.text('MOMENTO ' + p.n, M+3.5, y+2.6);
+  d.setFont('helvetica','bold'); d.setFontSize(11.5); d.setTextColor(...TINTA);
+  d.text(p.t, M+3.5, y+7.2);
+  const g = aps.reduce((s,a)=> s + (e.n[a.id]!==undefined? e.n[a.id]*a.x : 0), 0);
+  d.setFont('helvetica','bold'); d.setFontSize(9); d.setTextColor(...col);
+  d.text(g + ' / ' + ptsPaso(p.n) + ' pts', M+W, y+7.2, {align:'right'});
+  y += 10;
+  txt('Lo que pedí: «' + p.cita + '»', M+3.5, W-3.5, 8, 'italic', GRIS, 1.25);
+  y += 1.5;
+
+  aps.forEach(a=>{
+   const v = e.n[a.id];
+   salto(22);
+   d.setFont('helvetica','bold'); d.setFontSize(9.5); d.setTextColor(...TINTA);
+   d.text(a.id + '  ' + a.tit, M+3.5, y+3.3);
+   d.setFont('helvetica','normal'); d.setFontSize(7.6); d.setTextColor(...TENUE);
+   d.text('x' + a.x + ' · hasta ' + (a.x*4) + ' pts', M+W, y+3.3, {align:'right'});
+   y += 6;
+   if(v !== undefined){
+    const c = NIVCOL[v];
+    d.setFillColor(...c); d.roundedRect(M+3.5, y-0.5, 26, 5.4, .8, .8, 'F');
+    d.setFont('helvetica','bold'); d.setFontSize(7.4); d.setTextColor(255,255,255);
+    d.text(v + ' · ' + NOM[v], M+4.8, y+3.2);
+    d.setFont('helvetica','bold'); d.setFontSize(8); d.setTextColor(...c);
+    d.text((v*a.x) + ' / ' + (a.x*4) + ' pts', M+32, y+3.2);
+    y += 7;
+    txt(v===0 ? 'El momento no apareció ni en la presentación ni en el anexo.' : a.niv[v-1],
+      M+3.5, W-3.5, 8.2, 'normal', TINTA, 1.3);
+   } else {
+    txt('Sin calificar.', M+3.5, W-3.5, 8.2, 'italic', TENUE, 1.3);
+   }
+   if(e.t[a.id]){
+    y += 1;
+    d.setDrawColor(...col); d.setLineWidth(.5);
+    const yA = y;
+    txt(e.t[a.id].trim(), M+6, W-6, 8.2, 'italic', GRIS, 1.3);
+    d.line(M+3.8, yA, M+3.8, y-1);
+   }
+   y += 2;
+  });
+ });
+
+ /* forma */
+ const fl = e.flags.map(i=>FLAGS[i]);
+ if(fl.length || e.roles.trim() || e.preg.trim()){
+  salto(12 + fl.length*3.6 + (e.roles.trim()?5:0) + (e.preg.trim()?7:0)); y += 4;
+  d.setDrawColor(200,208,218); d.setLineWidth(.2); d.line(M, y, M+W, y); y += 4;
+  txt('OBSERVACIONES DE FORMA · no modifican la nota', M, W, 6.8, 'bold', TENUE, 1.3);
+  y += 1;
+  fl.forEach(x=> txt('— ' + x, M, W, 8.2, 'normal', TINTA, 1.3));
+  if(e.roles.trim()) txt('Roles: ' + e.roles.trim(), M, W, 8.2, 'normal', GRIS, 1.3);
+  if(e.preg.trim()) txt('Ronda de preguntas: ' + e.preg.trim(), M, W, 8.2, 'normal', GRIS, 1.3);
+ }
+
+ /* pie en cada página */
+ const n = d.getNumberOfPages();
+ for(let i=1;i<=n;i++){
+  d.setPage(i);
+  d.setFont('helvetica','normal'); d.setFontSize(6.6); d.setTextColor(...TENUE);
+  d.text(m.f + ' · ' + m.c + ' · Fase 1 · Diagnóstico', M, 290);
+  d.text(i + ' / ' + n, M+W, 290, {align:'right'});
+ }
+ return d.output('blob');
+}
+
+const MAXP = AP.reduce((a,b)=>a+b.x*4,0);
+const porPaso = n => AP.filter(a=>a.paso===n);
+const ptsPaso = n => porPaso(n).reduce((s,a)=>s+a.x*4,0);
+const MOM = {1:'c5', 2:'c6', 3:'c3', 4:'c4', 5:'c2'};
+const vars = n => `--mc:var(--${MOM[n]});--ms:var(--${MOM[n]}-soft)`;
+const slug = f => f.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+                   .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const integrantes = f => NOMINA.filter(a=>a.f===f);
+
+const KEY='adp-mesa-e1-v2', KSES='adp-mesa-sesion', KBIN='adp-mesa-binkey';
+const BIN = {id:'6ac7015affd5d1605357dc34', base:'https://api.jsonbin.io/v3/b/'};
+let ALM = 'local', FALLO = '';           // 'artefacto' · 'bin' · 'local'
+const EN_ARCHIVO = (location.protocol === 'file:');
+const binClave = ()=>{ try{ return localStorage.getItem(KBIN)||''; }catch(e){ return ''; } };
+async function binLeer(){
+ if(EN_ARCHIVO) throw new Error('archivo local');
+ const h = {'X-Bin-Meta':'false'}, k = binClave();
+ if(k) h['X-Master-Key'] = k;
+ const r = await fetch(BIN.base + BIN.id + '/latest', {headers:h});
+ if(!r.ok) throw new Error('HTTP ' + r.status);
+ const j = await r.json();
+ return (j && j.record) ? j.record : j;
+}
+function porQueFalla(e){
+ const m = (e && e.message) || '';
+ if(m === 'archivo local') return 'Estás abriendo el archivo desde tu disco. Súbelo a GitHub y ábrelo '
+   + 'por su dirección web: desde el disco el navegador no deja hablar con el almacén.';
+ if(m.indexOf('401') >= 0 || m.indexOf('403') >= 0) return 'El almacén existe pero pide llave: pega aquí '
+   + 'abajo tu llave de escritura, o deja el almacén en lectura pública para que los alumnos entren sin llave.';
+ if(m.indexOf('404') >= 0) return 'Ese identificador de almacén no existe. Revísalo donde lo creaste.';
+ if(m.indexOf('429') >= 0) return 'El almacén está limitando las peticiones. Espera un minuto y reintenta.';
+ return 'No se pudo hablar con el almacén (' + (m || 'sin detalle') + '). Revisa la conexión.';
+}
+async function binPublico(){
+ const k = binClave();
+ if(!k) return toast('Pega primero tu llave de escritura, aquí abajo');
+ $('#estadoBorrador').textContent = 'Abriendo el almacén a lectura…';
+ try{
+  const r = await fetch(BIN.base + BIN.id + '/meta/privacy', {method:'PUT',
+    headers:{'X-Master-Key':k, 'X-Bin-Private':'false'}});
+  if(!r.ok) throw new Error('HTTP ' + r.status);
+  toast('Listo: el almacén quedó abierto a lectura');
+  FALLO = '';
+  await arrancarBin(false);
+ }catch(e){
+  toast('No se pudo abrir: ' + e.message);
+  $('#estadoBorrador').textContent = 'No se pudo cambiar la privacidad (' + e.message
+    + '). Revisa que la llave sea la Master Key.';
+  $('#estadoBorrador').style.color = 'var(--c1-ink)';
+ }
+}
+async function binEscribir(rec){
+ const k = binClave();
+ if(!k) throw new Error('sin clave');
+ const r = await fetch(BIN.base + BIN.id, {method:'PUT',
+   headers:{'Content-Type':'application/json', 'X-Master-Key':k, 'X-Bin-Versioning':'false'},
+   body: JSON.stringify(rec)});
+ if(!r.ok) throw new Error('escritura ' + r.status);
+ return true;
+}
+let datos = {};
+try{ const raw = localStorage.getItem(KEY); if(raw) datos = JSON.parse(raw)||{}; }catch(e){ datos={}; }
+let actual = FIRMAS[0].f, DB = null, publicadas = {}, YO = null;
+const vacio = ()=>({n:{},t:{},flags:[],roles:'',preg:'',ts:0});
+const est = ()=> (datos[actual] = datos[actual] || vacio());
+let sincronizado = {}, pendiente = null;
+function persistir(){ try{ localStorage.setItem(KEY, JSON.stringify(datos)); }catch(e){} }
+function guardar(){
+ est().ts = Date.now(); persistir(); estadoBorrador();
+ if(DB){ clearTimeout(pendiente); pendiente = setTimeout(()=>guardarBorrador(true), 10000); }
+}
+const sinGuardar = ()=> FIRMAS.filter(f=> datos[f.f] && (datos[f.f].ts||0) > (sincronizado[f.f]||0));
+function estadoBorrador(){
+ const el = $('#estadoBorrador'); if(!el) return;
+ if(ALM === 'bin'){ el.textContent = 'Almacén conectado. Lo calificado se guarda en este navegador; al '
+   + 'publicar, las notas viajan al almacén y los alumnos las ven.';
+   el.style.color = 'var(--ink-faint)'; return; }
+ if(!DB){ el.textContent = FALLO || 'Esta página no tiene almacén: lo calificado se guarda solo en este navegador.';
+   el.style.color = 'var(--c1-ink)'; return; }
+ const p = sinGuardar().length;
+ el.textContent = p? `Hay cambios sin guardar en ${p} consultora${p>1?'s':''}.`
+   : (ultimoBorrador? 'Borrador guardado · ' + ultimoBorrador : 'Sin cambios pendientes.');
+ el.style.color = p? 'var(--c1-ink)' : 'var(--ink-faint)';
+}
+let ultimoBorrador = '';
+async function guardarBorrador(callado){
+ if(!DB){ if(!callado) toast('Copia local: ya quedó guardado en este navegador'); return; }
+ const faltan = sinGuardar();
+ if(!faltan.length){ if(!callado) toast('No hay cambios que guardar'); estadoBorrador(); return; }
+ let n = 0;
+ for(const f of faltan){
+  const e = datos[f.f];
+  try{
+   await DB.doc('borradores/'+slug(f.f)).set({firma:f.f, n:e.n, t:e.t, flags:e.flags,
+     roles:e.roles, preg:e.preg, ts:e.ts||0, guardado:new Date().toISOString()});
+   sincronizado[f.f] = e.ts||0; n++;
+  }catch(err){ if(!callado) toast('No se pudo guardar el borrador de '+f.f); }
+ }
+ if(n){ ultimoBorrador = new Date().toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});
+   if(!callado) toast(`Borrador guardado · ${n} consultora${n>1?'s':''}`); }
+ estadoBorrador();
+}
+async function cargarBorradores(){
+ if(!DB) return;
+ try{
+  const snap = await DB.collection('borradores').get();
+  let cambio = false;
+  snap.docs.forEach(d=>{
+   const b = d.data(); if(!b || !b.firma) return;
+   sincronizado[b.firma] = b.ts||0;
+   const loc = datos[b.firma];
+   if(!loc || (b.ts||0) > (loc.ts||0)){
+    datos[b.firma] = {n:b.n||{}, t:b.t||{}, flags:b.flags||[], roles:b.roles||'',
+      preg:b.preg||'', ts:b.ts||0};
+    cambio = true;
+    if(b.guardado) ultimoBorrador = new Date(b.guardado).toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});
+   }
+  });
+  if(cambio){ persistir(); pintar(); toast('Borrador recuperado'); }
+  estadoBorrador();
+ }catch(e){}
+}
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nota1 = x => x.toFixed(1).replace('.',',');
+const COLOR = ['var(--l0)','var(--l1)','var(--l2)','var(--l3)','var(--l4)'];
+
+/* ─────────────────────────── construcción ─────────────────────────── */
+$('#firma').innerHTML = FIRMAS.map(f=>
+ `<option value="${esc(f.f)}">${esc(f.f)} · ${esc(f.e)} (${f.c})</option>`).join('');
+$('#chipTotal').textContent = AP.length+' criterios · '+MAXP+' pts';
+$('#notaForma').textContent = 'No modifican la nota: la nota sale solo de los '+AP.length+' criterios. Quedan registradas y salen en la devolución, en el PDF y en el Excel.';
+
+$('#rail').innerHTML = AP.map(a=>
+ `<i id="r-${a.id}" style="flex:${a.x}" title="${a.id} · ${esc(a.tit)}"></i>`).join('');
+
+$('#tira').innerHTML = PASOS.map(p=>{
+ const aps = porPaso(p.n);
+ return `<a href="#paso-${p.n}" style="${vars(p.n)}">
+   <span class="k">Momento ${p.n} · ${Math.round(ptsPaso(p.n)/MAXP*100)} %</span><span class="n">${esc(p.t)}</span>
+   <span class="v" id="tv-${p.n}"><b>0</b> / ${ptsPaso(p.n)} pts</span></a>`;
+}).join('');
+
+$('#tmapa').innerHTML = '<thead><tr><th>Momento</th><th>Lo que pedí, textual</th>'
+ + '<th>Qué juzgo</th><th style="text-align:right">Peso</th></tr></thead><tbody>'
+ + PASOS.map(p=>{
+   const aps = porPaso(p.n);
+   return `<tr style="${vars(p.n)}"><td class="mo"><b>${p.n}. ${esc(p.t)}</b></td>
+    <td class="dicho">«${esc(p.cita)}»</td>
+    <td>${aps.map(a=>`${esc(a.tit)} <span class="ref">×${a.x} · ${a.x*4} pts</span>`).join('<br>')}</td>
+    <td class="n">${ptsPaso(p.n)} / ${MAXP}<br><span class="ref">${Math.round(ptsPaso(p.n)/MAXP*100)} %</span></td></tr>`;
+ }).join('') + '</tbody>';
+
+$('#pasos').innerHTML = PASOS.map(p=>{
+ const aps = porPaso(p.n);
+ return `<section class="paso" id="paso-${p.n}" style="${vars(p.n)}">
+  <div class="pasohead">
+   <span class="pn">Momento ${p.n}</span><h2>${esc(p.t)}</h2>
+   <span class="ptos" id="pp-${p.n}"><b>0</b> / ${ptsPaso(p.n)} pts</span>
+  </div>
+  <p class="dicho"><b>Lo que pedí</b><q>${esc(p.cita)}</q></p>
+  <div class="cuerpo">
+  ${aps.length ? aps.map(a=>`
+   <article class="ap" id="ap-${a.id}">
+    <div class="aphead"><span class="sec">${a.id}</span><h3>${esc(a.tit)}</h3>
+     <span class="peso">×${a.x} · ${a.x*4} pts</span></div>
+    <p class="preg">${esc(a.preg)}</p>
+    <div class="scale" role="radiogroup" aria-label="Nivel del apartado ${a.id}">
+     ${NOM.map((n,i)=>`<button type="button" role="radio" aria-checked="false" data-ap="${a.id}" data-p="${i}">
+       <span class="p">${i}</span><span class="l">${n}</span></button>`).join('')}
+    </div>
+    <p class="desc vacio" id="d-${a.id}">Elige un nivel y aparece el descriptor que lo sustenta.</p>
+    <details class="ev"><summary>Qué suele aparecer aquí</summary>
+     <p class="oye">${esc(a.oye)}</p>
+     <ul>${a.evid.map(e=>`<li>${esc(e)}</li>`).join('')}</ul>
+     <p class="noes"><b>No es una lista de cotejo.</b> Que no nombren una herramienta no baja el nivel si
+     el juicio está hecho y sostenido. ${esc(a.noEs)}</p></details>
+    <textarea id="t-${a.id}" rows="2" placeholder="Nota para la devolución…"></textarea>
+    <p class="eco" id="eco-${a.id}"></p>
+   </article>`).join('') : `<p class="sinapnota">${esc(p.sinap)}</p>`}
+  </div></section>`;
+}).join('');
+
+$('#marc').innerHTML = AP.map(a=>
+ `<button class="mrow" type="button" data-go="${a.id}">
+   <span class="s">${a.id}</span>
+   <span class="mid"><span class="t">${esc(a.tit)}</span>
+     <span class="pips">${[0,1,2,3].map(i=>`<span></span>`).join('')}</span></span>
+   <span class="v" id="m-${a.id}">— / ${a.x*4}</span></button>`).join('');
+
+$('#flags').innerHTML = FLAGS.map((f,i)=>`
+ <label class="chk"><input type="checkbox" data-flag="${i}"><span>${esc(f)}</span></label>`).join('');
+
+/* ─────────────────────────── pintar ─────────────────────────── */
+function calc(f){
+ const e = datos[f]; if(!e) return null;
+ let p=0,h=0; AP.forEach(a=>{ const v=e.n[a.id]; if(v!==undefined){ p+=v*a.x; h++; } });
+ return h? {p, nota:p/MAXP*20, h} : null;
+}
+function pintar(){
+ const e = est(); let pts=0, hechos=0;
+ AP.forEach(a=>{
+  const v = e.n[a.id], card = document.getElementById('ap-'+a.id);
+  if(v===undefined) card.removeAttribute('data-v'); else card.dataset.v = v;
+  card.querySelectorAll('.scale button').forEach(b=>
+    b.setAttribute('aria-checked', String(Number(b.dataset.p)===v)));
+  const d = document.getElementById('d-'+a.id);
+  if(v===undefined){ d.className='desc vacio'; d.removeAttribute('data-v');
+    d.textContent='Elige un nivel y aparece el descriptor que lo sustenta.'; }
+  else { d.className='desc'; d.dataset.v=v;
+    d.innerHTML = v===0
+      ? '<b>No entregado.</b> El apartado no apareció ni en la presentación ni en el anexo.'
+      : '<b>'+NOM[v]+'.</b> '+esc(a.niv[v-1]);
+    pts += v*a.x; hechos++; }
+  const ta = document.getElementById('t-'+a.id); ta.value = e.t[a.id]||'';
+  document.getElementById('eco-'+a.id).textContent = ta.value;
+  const seg = document.getElementById('r-'+a.id);
+  seg.style.setProperty('--w', v===undefined? '0%' : (v/4*100)+'%');
+  seg.style.setProperty('--c', v===undefined? 'var(--line-3)' : COLOR[v]);
+  const row = document.querySelector('.mrow[data-go="'+a.id+'"]');
+  if(v===undefined) row.removeAttribute('data-v'); else row.dataset.v = v;
+  row.querySelectorAll('.pips span').forEach((s,i)=> s.className = (v!==undefined && i<v)? 'on' : '');
+  document.getElementById('m-'+a.id).textContent = (v===undefined? '—' : v*a.x) + ' / ' + a.x*4;
+ });
+ PASOS.forEach(p=>{
+  const aps = porPaso(p.n); if(!aps.length) return;
+  const g = aps.reduce((s,a)=> s + (e.n[a.id]!==undefined? e.n[a.id]*a.x : 0), 0);
+  const txt = '<b>'+g+'</b> / '+ptsPaso(p.n)+' pts';
+  document.getElementById('pp-'+p.n).innerHTML = txt;
+  document.getElementById('tv-'+p.n).innerHTML = txt;
+ });
+ const nota = pts/MAXP*20, faltan = AP.length - hechos;
+ $('#pts').textContent = pts+' / '+MAXP+' pts' + (faltan? '  ·  faltan '+faltan : '');
+ $('#pts').style.color = faltan? 'var(--c1-ink)' : 'var(--ink-dim)';
+ $('#nota').textContent = hechos? nota1(nota) : '—';
+ $('#nota').style.color = !hechos? 'var(--c5-ink)' : nota<11? 'var(--l1)' : nota<14? 'var(--l2)' : 'var(--l4)';
+ document.querySelectorAll('[data-flag]').forEach(c=> c.checked = e.flags.includes(Number(c.dataset.flag)));
+ $('#roles').value = e.roles||''; $('#preguntas').value = e.preg||'';
+ $('#eco-roles').textContent = e.roles? 'Roles: '+e.roles : '';
+ $('#eco-preguntas').textContent = e.preg? 'Ronda de preguntas: '+e.preg : '';
+ cabeceraImpresion(); tabla();
+}
+function cabeceraImpresion(){
+ const m = FIRMAS.find(x=>x.f===actual), r = calc(actual);
+ const e0 = est(), sinCal = AP.filter(a=>e0.n[a.id]===undefined).map(a=>a.id);
+ $('#imp').innerHTML = `<div class="et">Administración de Producción y Operaciones · AD24-1072 · 2026-02</div>
+  <h1>Mesa del Cliente · Fase 1 · Diagnóstico</h1>
+  <div class="sub">Exposición ante el cliente · 15 minutos y ronda de preguntas · los cinco momentos
+  corresponden al correo «Consideraciones · Exposiciones con el cliente» del 29 de setiembre</div>
+  <div class="caja">
+   <div><span>Consultora</span><b>${esc(m.f)}</b></div>
+   <div><span>Caso</span><b>${m.c} · ${esc(m.e)}</b></div>
+   <div><span>Cliente</span><b>${esc(m.cl)}</b></div>
+   <div><span>Integrantes</span><b>${integrantes(m.f).length}</b></div>
+   <div><span>Puntaje</span><b>${r? r.p : 0} / ${MAXP}</b></div>
+   <div><span>Nota</span><b>${r? nota1(r.nota) : '—'} / 20</b></div>
+  </div>
+  ${sinCal.length? `<p class="falta">Calificación incompleta: quedan sin nivel ${esc(sinCal.join(', '))}.</p>`:''}`;
+}
+function tabla(){
+ $('#consolidado').innerHTML = '<thead><tr><th>Consultora</th><th style="text-align:right">Puntos</th>'
+  + '<th style="text-align:right">Nota</th></tr></thead><tbody>'
+  + FIRMAS.map(f=>{ const r = calc(f.f);
+    return `<tr class="${f.f===actual?'hoy':''}"><td>${esc(f.f)}</td>
+      <td class="n">${r? r.p+'/'+MAXP : '—'}</td><td class="n">${r? nota1(r.nota) : '—'}</td></tr>`;
+  }).join('') + '</tbody>';
+}
+
+/* ─────────────────────────── eventos ─────────────────────────── */
+$('#firma').addEventListener('change', ev=>{ actual=ev.target.value; pintar(); });
+document.addEventListener('click', ev=>{
+ const g = ev.target.closest('.mrow');
+ if(g){ document.getElementById('ap-'+g.dataset.go).scrollIntoView({behavior:'smooth', block:'center'}); return; }
+ const b = ev.target.closest('.scale button'); if(!b) return;
+ const e = est(), id = b.dataset.ap, p = Number(b.dataset.p);
+ if(e.n[id]===p) delete e.n[id]; else e.n[id]=p;
+ guardar(); pintar();
+});
+document.addEventListener('input', ev=>{
+ const t = ev.target;
+ if(t.id && t.id.startsWith('t-')){ est().t[t.id.slice(2)] = t.value;
+   document.getElementById('eco-'+t.id.slice(2)).textContent = t.value; guardar(); }
+ if(t.id==='roles'){ est().roles = t.value; $('#eco-roles').textContent = t.value? 'Roles: '+t.value:''; guardar(); }
+ if(t.id==='preguntas'){ est().preg = t.value; $('#eco-preguntas').textContent = t.value? 'Ronda de preguntas: '+t.value:''; guardar(); }
+});
+document.addEventListener('change', ev=>{
+ const t = ev.target, e = est();
+ if(t.dataset.flag!==undefined){ const i=Number(t.dataset.flag);
+   e.flags = t.checked? [...new Set([...e.flags,i])] : e.flags.filter(x=>x!==i); guardar(); }
+});
+
+/* ─────────────────────────── cronómetro ─────────────────────────── */
+let seg=15*60, corre=false, tick=null;
+const mmss = s => (s<0?'+':'')+String(Math.floor(Math.abs(s)/60)).padStart(2,'0')+':'+String(Math.abs(s)%60).padStart(2,'0');
+function reloj(){
+ $('#t').textContent = mmss(seg);
+ $('#reloj').className = 'clock' + (seg<=0? ' bad' : seg<=180? ' warn' : '');
+ $('#fase').textContent = seg>0? 'Exposición' : 'Ronda de preguntas';
+}
+$('#play').addEventListener('click', ()=>{
+ corre = !corre; $('#play').textContent = corre? 'Pausar':'Iniciar';
+ clearInterval(tick); if(corre) tick = setInterval(()=>{ seg--; reloj(); }, 1000);
+});
+$('#reset').addEventListener('click', ()=>{
+ clearInterval(tick); corre=false; $('#play').textContent='Iniciar'; seg=15*60; reloj(); });
+reloj();
+
+/* ─────────────────────────── salida ─────────────────────────── */
+function devolucion(f){
+ const e = datos[f]||vacio(), r = calc(f), m = FIRMAS.find(x=>x.f===f), L=[];
+ const pend = AP.filter(a=>e.n[a.id]===undefined).length;
+ L.push(`${f} · ${m.e} (${m.c}) · cliente: ${m.cl}`);
+ L.push(`Fase 1 · Diagnóstico (Entrega 1 del TIF) — ${r? r.p+'/'+MAXP+' puntos · nota '+nota1(r.nota)+'/20' : 'sin calificar'}`
+   + (pend? ` (provisional: faltan ${pend} momentos por calificar)` : ''));
+ PASOS.forEach(p=>{
+  L.push(''); L.push(`MOMENTO ${p.n} · ${p.t} — «${p.cita}»`);
+  const aps = porPaso(p.n);
+  if(!aps.length){ L.push('   Sin apartado propio: se verifica con la bitácora de entrevistas.'); return; }
+  aps.forEach(a=>{
+   const v = e.n[a.id];
+   L.push(`   ${a.id} ${a.tit} — ${v===undefined?'—':v+'/4'} (${v===undefined?'sin calificar':NOM[v]}, ×${a.x} = ${v===undefined?'—':v*a.x}/${a.x*4})`);
+   if(e.t[a.id]) L.push('      ' + e.t[a.id].trim());
+  });
+ });
+ const fl = e.flags.map(i=>FLAGS[i]);
+ if(fl.length){ L.push(''); L.push('Observaciones de forma (no modifican la nota): ' + fl.join('; ') + '.'); }
+ if(e.roles.trim()){ L.push(''); L.push('Roles: ' + e.roles.trim()); }
+ if(e.preg.trim()){ L.push(''); L.push('Ronda de preguntas: ' + e.preg.trim()); }
+ return L.join('\n');
+}
+function filaAlumnos(){
+ const enc = ['Apellidos y nombres','Correo institucional','Consultora','Caso','Empresa','Rol en la firma',
+   'Puntos','Maximo','Nota sobre 20'];
+ return [enc, ...NOMINA.map(a=>{
+   const m = FIRMAS.find(x=>x.f===a.f), r = calc(a.f);
+   return [a.n, a.c, a.f, m?m.c:'', m?m.e:'', a.rol, r? r.p:'', MAXP, r? nota1(r.nota):''];
+ })];
+}
+function filaFirmas(){
+ return [['Consultora','Caso','Empresa','Cliente','Integrantes','Puntos','Maximo','Nota sobre 20',
+   'Momentos calificados','Observaciones de forma (no afectan la nota)'],
+  ...FIRMAS.map(f=>{ const r = calc(f.f), e = datos[f.f];
+    return [f.f, f.c, f.e, f.cl, integrantes(f.f).length, r? r.p:'', MAXP, r? nota1(r.nota):'',
+      r? r.h:0, e? e.flags.map(i=>FLAGS[i]).join(' / '):'']; })];
+}
+function filaDetalle(){
+ const enc = ['Consultora','Caso','Momento','Titulo del momento','Lo que se pidio por correo','Apartado',
+   'Titulo del apartado','Peso','Nivel','Nombre del nivel','Puntos del apartado','Puntos maximos',
+   'Comentario'];
+ const fil = [];
+ FIRMAS.forEach(f=>{ const e = datos[f.f];
+  PASOS.forEach(p=> porPaso(p.n).forEach(a=>{
+   const v = e? e.n[a.id] : undefined;
+   fil.push([f.f, f.c, p.n, p.t, p.cita, a.id, a.tit, a.x,
+     v===undefined?'':v, v===undefined?'':NOM[v], v===undefined?'':v*a.x, a.x*4,
+     e&&e.t[a.id]? e.t[a.id].replace(/\s+/g,' ').trim():'']);
+  }));
+ });
+ return [enc, ...fil];
+}
+function toast(t){ const d=document.createElement('div'); d.className='toast'; d.textContent=t;
+ document.body.appendChild(d); setTimeout(()=>d.remove(),2600); }
+function copiar(txt, ok){
+ if(navigator.clipboard && navigator.clipboard.writeText){
+   navigator.clipboard.writeText(txt).then(()=>toast(ok)).catch(()=>seleccionar(txt));
+ } else seleccionar(txt);
+}
+function seleccionar(txt){
+ const ta=document.createElement('textarea'); ta.value=txt;
+ ta.style.cssText='position:fixed;left:16px;right:16px;top:18%;height:55vh;z-index:90;font-size:12px';
+ document.body.appendChild(ta); ta.focus(); ta.select();
+ toast('Copia el texto seleccionado y luego toca fuera');
+ const cerrar=()=>{ ta.remove(); document.removeEventListener('click',cerrar,true); };
+ setTimeout(()=>document.addEventListener('click',cerrar,true),500);
+}
+let DESCARGAS = null;
+async function entregar(blob, nombre, aviso){
+ if(DESCARGAS){
+   try{ await DESCARGAS.save({filename:nombre, data:blob}); toast(aviso); return; }
+   catch(err){ if(err && err.code==='cancelled') return; }
+ }
+ try{
+   const url = URL.createObjectURL(blob), a = document.createElement('a');
+   a.href = url; a.download = nombre; document.body.appendChild(a); a.click(); a.remove();
+   setTimeout(()=>URL.revokeObjectURL(url), 1500); toast(aviso);
+ }catch(e){ toast('No se pudo descargar aquí: abre la copia local del archivo'); }
+}
+function aCSV(filas){
+ return filas.map(r=>r.map(c=>{ const s = String(c??'').replace(/"/g,'""');
+   return /[;"\n]/.test(s)? '"'+s+'"' : s; }).join(';')).join('\r\n');
+}
+$('#borrador').addEventListener('click', ()=>{ clearTimeout(pendiente); guardarBorrador(false); });
+let tecleo = null;
+$('#claveBin').addEventListener('input', ev=>{
+ try{ localStorage.setItem(KBIN, ev.target.value.trim()); }catch(e){}
+ if(ALM !== 'artefacto'){ clearTimeout(tecleo); tecleo = setTimeout(()=>arrancarBin(false), 900); }
+});
+$('#probar').addEventListener('click', ()=>{
+ $('#estadoBorrador').textContent = 'Probando el almacén…';
+ arrancarBin(true);
+});
+$('#publico').addEventListener('click', binPublico);
+try{ $('#claveBin').value = binClave(); }catch(e){}
+
+/* ── llevar lo calificado de un navegador a otro ── */
+$('#copiarTodo').addEventListener('click', ()=>{
+ const n = Object.keys(datos).filter(f=>calc(f)).length;
+ if(!n) return toast('Todavía no hay nada calificado');
+ copiar(JSON.stringify({adp:'mesa-fase1', datos}),
+   `Copiado: ${n} consultora${n>1?'s':''}. Pégalo en la otra vista.`);
+});
+$('#pegarTodo').addEventListener('click', ()=>{
+ const z = $('#zonaPegar'); z.hidden = !z.hidden;
+ if(!z.hidden) $('#pegado').focus();
+});
+$('#cargarPegado').addEventListener('click', ()=>{
+ let paq;
+ try{ paq = JSON.parse($('#pegado').value.trim()); }
+ catch(e){ return toast('Eso no se puede leer: copia el texto completo'); }
+ if(!paq || paq.adp !== 'mesa-fase1' || typeof paq.datos !== 'object')
+   return toast('Eso no es un paquete de esta mesa');
+ let n = 0;
+ FIRMAS.forEach(f=>{
+  const e = paq.datos[f.f]; if(!e || typeof e !== 'object') return;
+  datos[f.f] = {n:e.n||{}, t:e.t||{}, flags:e.flags||[], roles:e.roles||'',
+    preg:e.preg||'', ts:e.ts||Date.now()};
+  n++;
+ });
+ if(!n) return toast('El paquete no trae ninguna consultora conocida');
+ persistir(); pintar(); estadoBorrador();
+ $('#pegado').value = ''; $('#zonaPegar').hidden = true;
+ toast(`Cargadas ${n} consultora${n>1?'s':''}`);
+});
+$('#copiar').addEventListener('click', ()=> copiar(devolucion(actual),'Devolución copiada'));
+$('#limpiar').addEventListener('click', ()=>{
+ datos[actual]=vacio(); guardar(); pintar(); toast('Se borró la calificación de '+actual); });
+$('#pdf').addEventListener('click', async ()=>{
+ const blob = informePDF(actual);
+ if(blob){
+  const hoy = new Date().toISOString().slice(0,10);
+  const nom = 'ADP_fase1_' + slug(actual) + '_' + hoy + '.pdf';
+  await entregar(blob, nom, 'Informe PDF entregado');
+  return;
+ }
+ if(!EN_VISOR){ cabeceraImpresion(); setTimeout(()=>window.print(), 60); return; }
+ toast('No se pudo preparar el PDF: revisa la conexión y vuelve a intentar');
+});
+$('#excel').addEventListener('click', async ()=>{
+ const hoy = new Date().toISOString().slice(0,10);
+ if(window.XLSX){
+  try{
+   const lb = XLSX.utils.book_new();
+   XLSX.utils.book_append_sheet(lb, XLSX.utils.aoa_to_sheet(filaAlumnos()), 'Notas por alumno');
+   XLSX.utils.book_append_sheet(lb, XLSX.utils.aoa_to_sheet(filaFirmas()), 'Resumen por consultora');
+   XLSX.utils.book_append_sheet(lb, XLSX.utils.aoa_to_sheet(filaDetalle()), 'Detalle por apartado');
+   const buf = XLSX.write(lb, {bookType:'xlsx', type:'array'});
+   await entregar(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),
+     `ADP_fase1_notas_${hoy}.xlsx`, 'Libro .xlsx entregado');
+   return;
+  }catch(err){ /* cae al CSV */ }
+ }
+ await entregar(new Blob(['﻿'+aCSV(filaAlumnos())], {type:'text/csv;charset=utf-8;'}),
+   `ADP_fase1_notas_${hoy}.csv`, 'Archivo .csv entregado: ábrelo con Excel');
+});
+window.addEventListener('beforeprint', ()=>{ cabeceraImpresion();
+ try{ $('#congru').open = true; }catch(e){} });
+
+/* ─────────────────────────── vista del alumno ─────────────────────────── */
+function filaResumen(a, f){
+  const r = publicadas[slug(f.f)], mio = f.f === a.f, nom = esc(f.f) + '<span class="ref"> · ' + f.c + '</span>';
+  if(mio) return `<tr class="hoy"><td>${nom}</td>
+    <td class="n">${r? r.p + ' / ' + r.max : '—'}</td><td class="n">${r? r.nota : '—'}</td></tr>`;
+  return `<tr><td>${nom}</td>
+    <td class="n"><span class="velo">•• / ••</span></td>
+    <td class="n"><span class="velo">••,•</span></td></tr>`;
+}
+function pintarAlumno(){
+ const caja = $('#resultadoAlumno'); if(!YO || YO.i < 0) return;
+ const a = NOMINA[YO.i], m = FIRMAS.find(x=>x.f===a.f), pub = publicadas[slug(a.f)];
+ const cab = `<div class="meta" style="margin:0 0 14px">
+   <div><span>Alumno</span><b>${esc(a.n)}</b></div>
+   <div><span>Consultora</span><b>${esc(a.f)}</b></div>
+   <div><span>Caso</span><b>${m.c} · ${esc(m.e)}</b></div>
+   <div><span>Tu rol</span><b>${esc(a.rol)}</b></div></div>`;
+ if(!pub){
+   const leyo = (DB || ALM === 'bin');
+   caja.innerHTML = cab + '<p class="nota-forma">' + (leyo
+     ? 'La nota de tu consultora todavía no está publicada. Vuelve a entrar más tarde.'
+     : 'Esta página no pudo leer las notas publicadas, así que no sé si la tuya ya está lista. '
+       + 'Avísale al profesor con esta línea: <b>' + esc(FALLO || 'almacén inalcanzable') + '</b>')
+     + '</p>'; return; }
+ caja.innerHTML = cab + `
+  <div><span class="eyebrow" style="color:var(--ink-faint)">Nota de la Fase 1</span>
+   <div class="big">${esc(pub.nota)}<span style="font-size:22px;color:var(--ink-faint)">/ 20</span></div>
+   <p class="aviso" style="margin-top:4px">${esc(String(pub.p))} de ${esc(String(pub.max))} puntos</p></div>
+  <table class="tabla" style="margin-top:12px"><thead><tr><th>Momento de la exposición</th>
+   <th style="text-align:right">Peso</th><th style="text-align:right">Obtenido</th></tr></thead><tbody>
+   ${(pub.momentos||[]).map(x=>`<tr style="${vars(x.n)}"><td style="border-left:3px solid var(--mc);padding-left:7px">
+     <b>${x.n}.</b> ${esc(x.t)}</td>
+     <td class="n">${x.max} pts · ${Math.round(x.max/pub.max*100)} %</td>
+     <td class="n">${x.g} / ${x.max}</td></tr>`).join('')}
+   <tr><td><b>Total</b></td><td class="n"><b>${esc(String(pub.max))} pts</b></td>
+     <td class="n"><b>${esc(String(pub.p))} / ${esc(String(pub.max))}</b></td></tr></tbody></table>
+  <p class="aviso">La nota es de la firma: los ${integrantes(a.f).length} integrantes reciben la misma.
+  Las observaciones de forma no modifican la nota.</p>
+  <h3 style="font-family:var(--f-m);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--ink-faint);margin:16px 0 7px">Resumen por consultora</h3>
+  <table class="tabla"><thead><tr><th>Consultora</th><th style="text-align:right">Puntos</th>
+   <th style="text-align:right">Nota</th></tr></thead><tbody>
+   ${FIRMAS.map(f=>filaResumen(a,f)).join('')}</tbody></table>
+  <p class="aviso">Solo se muestra la nota de tu consultora; la de las demás queda cubierta.</p>
+  <div class="dev">${esc(pub.dev||'')}</div>`;
+}
+
+/* ─────────────────────────── capacidades ─────────────────────────── */
+const EN_VISOR = !!(window.claude && window.claude.use);
+function derivar(dni){ let h = SHA256(SAL + dni); for(let i=1;i<VUELTAS;i++) h = SHA256(h + SAL); return h; }
+function vista(v){                      // 'portada' · 'alumno' · 'docente'
+ $('#portada').hidden   = v !== 'portada';
+ $('#vistaAlumno').hidden = v !== 'alumno';
+ $('#vistaDocente').hidden = v !== 'docente';
+ $('#barra').hidden = v !== 'docente';
+}
+function entrar(i, recordar){
+ YO = {i};
+ if(recordar){ try{ localStorage.setItem(KSES, String(i)); }catch(e){} }
+ if(i < 0){ vista('docente'); pintar(); }
+ else { vista('alumno'); pintarAlumno(); }
+}
+function salir(){
+ YO = null; try{ localStorage.removeItem(KSES); }catch(e){}
+ $('#dni').value = ''; $('#estadoAcceso').textContent = ''; vista('portada'); $('#dni').focus();
+}
+$('#salirAlumno').addEventListener('click', salir);
+$('#salirDocente').addEventListener('click', salir);
+$('#entrar').addEventListener('click', ()=>{
+ const d = $('#dni').value.replace(/\D/g,'');
+ if(d.length < 6) return $('#estadoAcceso').textContent = 'Escribe tu DNI completo.';
+ $('#estadoAcceso').textContent = 'Comprobando…';
+ setTimeout(()=>{
+  const i = ACCESO[derivar(d)];
+  if(i === undefined){ $('#estadoAcceso').textContent = 'Ese DNI no figura en la lista de clases del curso.'; return; }
+  $('#estadoAcceso').textContent = '';
+  entrar(i, true);
+ }, 30);
+});
+$('#dni').addEventListener('keydown', ev=>{ if(ev.key==='Enter') $('#entrar').click(); });
+$('#avisoExport').textContent =
+ 'PDF descarga el informe de la consultora elegida. Excel descarga el libro .xlsx con una hoja por alumno, '
+ + 'una por consultora y el detalle por momento.';
+async function arrancarBin(aviso){
+ try{
+  const rec = await binLeer();
+  ALM = 'bin'; FALLO = '';
+  if(rec && rec.notas) publicadas = rec.notas;
+  if(YO && YO.i >= 0) pintarAlumno();
+  if(aviso) toast('Almacén conectado');
+ }catch(e){ ALM = 'local'; FALLO = porQueFalla(e); if(aviso) toast('No se pudo conectar'); }
+ pintarAlmacen();
+}
+function pintarAlmacen(){
+ const z = $('#zonaClave'); if(z) z.hidden = (ALM === 'artefacto');
+ const b = $('#probar'); if(b) b.hidden = (ALM === 'artefacto');
+ const q = $('#publico'); if(q) q.hidden = (ALM === 'artefacto');
+ estadoBorrador();
+}
+async function arranque(){
+ let guardada = null;
+ try{ const v = localStorage.getItem(KSES); if(v !== null) guardada = Number(v); }catch(e){}
+ if(guardada !== null && (guardada === -1 || NOMINA[guardada])) entrar(guardada, false);
+ else { vista('portada'); setTimeout(()=>$('#dni').focus(), 60); }
+ if(!(window.claude && window.claude.use)){ await arrancarBin(); return; }
+ try{
+  const [db, dl] = await Promise.all([
+    claude.use('db').catch(()=>null),
+    claude.use('downloads').catch(()=>null)]);
+  DB = db; DESCARGAS = dl;
+  if(db){
+   ALM = 'artefacto';
+   try{
+    const snap = await db.collection('notas').get();
+    snap.docs.forEach(d=>{ publicadas[d.id] = d.data(); });
+    if(YO && YO.i >= 0) pintarAlumno();
+   }catch(e){}
+   if(YO && YO.i < 0) await cargarBorradores();
+  }
+ }catch(e){}
+ pintarAlmacen();
+}
+function paquetePublicable(){
+ const notas = {}; let n = 0;
+ for(const f of FIRMAS){
+  const r = calc(f.f); if(!r) continue;
+  if(r.h < AP.length){ toast(f.f + ': faltan momentos por calificar, no se publicó'); continue; }
+  const e = datos[f.f];
+  notas[slug(f.f)] = {firma:f.f, caso:f.c, empresa:f.e, cliente:f.cl, fase:'Fase 1 · Diagnóstico',
+    p:r.p, max:MAXP, nota:nota1(r.nota),
+    momentos: PASOS.map(x=>({n:x.n, t:x.t,
+      g:porPaso(x.n).reduce((a,ap)=> a + (e.n[ap.id]!==undefined? e.n[ap.id]*ap.x : 0), 0),
+      max:ptsPaso(x.n)})),
+    dev: devolucion(f.f), publicado:new Date().toISOString()};
+  n++;
+ }
+ return {notas, n};
+}
+$('#publicar').addEventListener('click', async ()=>{
+ if(ALM === 'bin'){
+  const {notas, n} = paquetePublicable();
+  if(!n) return toast('Todavía no hay ninguna consultora completa');
+  if(!binClave()) return toast('Pega primero tu llave de escritura, aquí abajo');
+  try{
+   await binEscribir({v:1, notas, actualizado:new Date().toISOString()});
+   publicadas = notas;
+   toast(`Publicadas ${n} de ${FIRMAS.length} consultoras`);
+  }catch(err){
+   toast(err.message === 'sin clave' ? 'Falta tu llave de escritura'
+     : 'No se pudo publicar: ' + err.message);
+  }
+  return;
+ }
+ if(!DB) return toast(FALLO || 'Esta página no tiene almacén');
+ let n = 0;
+ for(const f of FIRMAS){
+  const r = calc(f.f); if(!r) continue;
+  if(r.h < AP.length){ toast(f.f+': faltan momentos por calificar, no se publicó'); continue; }
+  try{
+   const e = datos[f.f];
+   const momentos = PASOS.map(x=>({n:x.n, t:x.t,
+     g:porPaso(x.n).reduce((a,ap)=> a + (e.n[ap.id]!==undefined? e.n[ap.id]*ap.x : 0), 0),
+     max:ptsPaso(x.n)}));
+   await DB.doc('notas/'+slug(f.f)).set({
+     firma:f.f, caso:f.c, empresa:f.e, cliente:f.cl, fase:'Fase 1 · Diagnóstico',
+     p:r.p, max:MAXP, nota:nota1(r.nota), momentos, dev:devolucion(f.f),
+     publicado:new Date().toISOString()});
+   n++;
+   try{ await DB.doc('borradores/'+slug(f.f)).delete(); sincronizado[f.f] = Date.now(); }catch(e){}
+  }catch(e){ toast('No se pudo publicar '+f.f); }
+ }
+ estadoBorrador();
+ toast(n? `Publicadas ${n} de ${FIRMAS.length} consultoras` : 'Todavía no hay ninguna firma calificada');
+});
+
+pintar();
+arranque();
+
+</script>
+
+</body></html>
