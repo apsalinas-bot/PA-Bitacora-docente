@@ -3274,7 +3274,10 @@ var qrcode = function() {
 /* =====================================================================
    DATOS DE LA CLASE
    ===================================================================== */
-const SESION = {fecha:'Semana 8 · Unidad 3', inicio:[7,0], fin:[8,30], dia:'2026-10-27'};
+/* Cambia SOLO estas dos líneas cada sesión. El resto se recalcula: la fecha larga
+   de la portada, la cuenta regresiva de la pantalla de espera y el reloj del plan. */
+const SESION = {fecha:'Semana 8 · Unidad 3', inicio:[7,0], fin:[8,30], dia:'2026-10-23'};
+/* Semana 9 → 2026-10-30 · Semana 10 → 2026-11-06 · Semana 11 → 2026-11-13 */
 
 const BLOCKS = {
   ini:{l:'Inicio',c:'#6B2737'}, s8:{l:'Sem 8 · De la métrica a la decisión',c:'#2563C9'},
@@ -3536,7 +3539,7 @@ const initials = p => ((p.n||'?')[0] + (p.a||'')[0]||'').toUpperCase();
 </script>
 <script>
 /* =====================================================================
-   LÁMINAS · guion de 8:30 a 12:00
+   LÁMINAS · guion de 7:00 a 8:30
    dur = minutos planificados · notes = guion para el profesor
    ===================================================================== */
 const SLIDES = [
@@ -3547,7 +3550,7 @@ const SLIDES = [
   <div class="brand">PEOPLE ANALYTICS</div>
   <div class="sub rv" style="--i:2">Unidad 3 · Aplicación de People Analytics en la toma de decisiones</div>
   <div class="bigclock rv" style="--i:3" data-live="clock">--:--</div>
-  <div class="cd rv" style="--i:4" data-live="countdown">Empezamos a las 6:15 p. m.</div>
+  <div class="cd rv" style="--i:4" data-live="countdown">Empezamos a las 7:00 a. m.</div>
   ${MOUNTAINS}`,
  notes:`Déjala proyectada mientras llegan. Reloj y cuenta regresiva son automáticos.
  · Esta unidad son cuatro sesiones: semanas 8, 9, 10 y 11. Usa la tecla G para saltar entre ellas.
@@ -3559,7 +3562,7 @@ const SLIDES = [
   <h1 class="t xl split">¿Qué se decide con esto?</h1>
   <div class="lead rv" style="--i:3">De la métrica a la decisión, y de la decisión al rendimiento que sí se mueve</div>
   <div class="meta rv" style="--i:5">
-    <span><b>${SESION.fecha}</b></span><span>ADM10-1</span><span>Prof. Alexis Salinas Rojas</span>
+    <span><b>${SESION.fecha}</b></span><span>${fechaLarga(SESION.dia)}</span><span>ADM10-1</span><span>Prof. Alexis Salinas Rojas</span>
   </div>
   <div class="orgs rv" style="--i:7">Gobierno de Personas · Departamento de Ciencias Económicas y Empresariales · UCSP</div>
   ${MOUNTAINS}`,
@@ -4072,8 +4075,8 @@ const SLIDES = [
 const $  = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const store = {
-  get(k,d){ try{ const v=localStorage.getItem('ruru8v2.'+k); return v!=null?JSON.parse(v):d; }catch(e){ return d; } },
-  set(k,v){ try{ localStorage.setItem('ruru8v2.'+k, JSON.stringify(v)); }catch(e){} }
+  get(k,d){ try{ const v=localStorage.getItem('pa-u3.'+k); return v!=null?JSON.parse(v):d; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem('pa-u3.'+k, JSON.stringify(v)); }catch(e){} }
 };
 let ROSTER = store.get('roster', null) || JSON.parse(JSON.stringify(ROSTER_DEFAULT));
 ROSTER.forEach((p,i)=>{ if(!p.c) p.c = PCOLORS[i % PCOLORS.length]; });
@@ -4084,6 +4087,11 @@ const shortName = p => p ? (p.n + (p.a?(' '+p.a):'')) : '';
 
 /* ---------------- Horario ---------------- */
 const T0 = SESION.inicio[0]*60 + SESION.inicio[1];
+const DIASEM=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const MESLARGO=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+function fechaLarga(iso){ const [y,m,d]=String(iso).split('-').map(Number);
+  const t=new Date(y,m-1,d), s=DIASEM[t.getDay()]+' '+d+' de '+MESLARGO[m-1];
+  return s.charAt(0).toUpperCase()+s.slice(1); }
 const SES_INI=['ini','s9','s10','s11'];
 const START = []; { let t=T0, _b=null; SLIDES.forEach((s,i)=>{ if(s.b!==_b && SES_INI.includes(s.b)) t=T0; _b=s.b; START[i]=t; t+=s.dur; }); }
 const blockRange = b => { const idx=SLIDES.map((s,i)=>s.b===b?i:-1).filter(i=>i>=0); const a=START[idx[0]]; const z=START[idx[idx.length-1]]+SLIDES[idx[idx.length-1]].dur; return [a,z]; };
@@ -4164,7 +4172,10 @@ function tickClock(){
   const di=deltaInfo();
   $('#hudClock').innerHTML = `${hh>12?hh-12:hh}:${mm}<small>plan ${hm(START[cur],false)} ${di?`<i class="${di.c}">${di.t}</i>`:''}</small>`;
   const lc=$('[data-live=clock]'); if(lc) lc.textContent=`${hh>12?hh-12:hh}:${mm}`;
-  const cd=$('[data-live=countdown]'); if(cd){ const left=T0-nowMin(); cd.textContent = (left>0 && left<180) ? `Empezamos a las 8:30 a. m. · faltan ${Math.ceil(left)} min` : 'Sesión 8 · Sábado 24 de octubre · 8:30 a. m.'; }
+  const cd=$('[data-live=countdown]'); if(cd){ const left=T0-nowMin();
+   cd.textContent = (left>0 && left<180)
+     ? `Empezamos a las ${hm(T0)} · faltan ${Math.ceil(left)} min`
+     : `${SESION.fecha} · ${fechaLarga(SESION.dia)} · ${hm(T0)}`; }
   Presenter.clock();
 }
 setInterval(tickClock, 1000);
@@ -4220,7 +4231,7 @@ function buildGrid(){
   $$('#gridList [data-go]').forEach(b=>b.onclick=()=>{ $('#gridOv').classList.remove('show'); go(+b.dataset.go,{fresh:true, jump:true}); });
 }
 $('#btnPrintWS').onclick=()=>{ $('#helpOv').classList.remove('show'); printWorksheet(); };
-$('#btnReset').onclick=()=>{ if(!confirm('¿Borrar asistencia, votos y respuestas guardadas en este navegador?')) return; try{ Object.keys(localStorage).filter(k=>k.startsWith('ruru8v2.')).forEach(k=>localStorage.removeItem(k)); }catch(e){} location.hash='#1'; location.reload(); };
+$('#btnReset').onclick=()=>{ if(!confirm('¿Borrar asistencia, votos y respuestas guardadas en este navegador?')) return; try{ Object.keys(localStorage).filter(k=>k.startsWith('pa-u3.')).forEach(k=>localStorage.removeItem(k)); }catch(e){} location.hash='#1'; location.reload(); };
 
 /* ---------------- Notas en pantalla ---------------- */
 const notesHTML = s => s.notes.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>l.startsWith('·')?`<div style="padding-left:18px;opacity:.9">${esc(l)}</div>`:`<div>${esc(l)}</div>`).join('');
