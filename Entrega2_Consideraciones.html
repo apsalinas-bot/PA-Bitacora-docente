@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrega 2 · cómo armarla · People Analytics 2026-02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#F4F6F9; --panel:#FFFFFF; --panel-3:#EEF2F7; --surface-4:#E4EAF2;
+  --line:rgba(15,32,56,.08); --line-2:rgba(15,32,56,.14);
+  --ink:#0F2038; --ink-2:#2E4258; --ink-dim:#5A6E86; --ink-faint:#8496AC; --ink-ghost:#AEBCCD;
+  --c1:#EB6834; --c1-ink:#C2410C; --c1-soft:#FEF0E9;
+  --c2:#7C3AED; --c2-ink:#6D28D9; --c2-soft:#F3EDFE;
+  --c3:#0EA5A5; --c3-ink:#0F766E; --c3-soft:#E6F7F6;
+  --c4:#E11D48; --c4-ink:#BE123C; --c4-soft:#FDEBEF;
+  --c5:#2563EB; --c5-ink:#1D4ED8; --c5-soft:#E9F0FE;
+  --c6:#B45309; --c6-ink:#92400E; --c6-soft:#FBF1E3;
+  --c7:#15803D; --c7-ink:#166534; --c7-soft:#E8F6EC;
+  --brand:#2563EB; --brand-ink:#1D4ED8; --brand-soft:#E9F0FE;
+  --ok:#16A34A; --ok-ink:#15803D; --ok-soft:#E8F7EE;
+  --bad:#DC2626; --bad-ink:#B91C1C; --bad-soft:#FDECEC;
+  --warn-ink:#B45309; --warn-soft:#FEF4E4;
+  --f-display:'Plus Jakarta Sans','Segoe UI',sans-serif;
+  --f-body:'Inter','Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --r:14px; --r-lg:18px; --r-xl:24px;
+  --sh-2:0 1px 2px rgba(15,32,56,.05),0 4px 14px rgba(15,32,56,.055);
+  --sh-3:0 2px 4px rgba(15,32,56,.05),0 12px 32px rgba(15,32,56,.09);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink-2);font-family:var(--f-body);
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4{font-family:var(--f-display);color:var(--ink);margin:0;line-height:1.18;letter-spacing:-.015em}
+p{margin:0 0 14px}
+b,strong{color:var(--ink);font-weight:600}
+.mono{font-family:var(--f-mono);font-size:.82em;letter-spacing:.02em}
+
+/* ---------- cabecera ---------- */
+header{background:var(--panel);border-bottom:1px solid var(--line);padding:58px 0 46px}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--c2-ink);margin-bottom:16px}
+header h1{font-size:clamp(34px,5.4vw,50px);font-weight:800;margin-bottom:16px}
+header .lead{font-size:20px;color:var(--ink-dim);max-width:680px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.pill{font-family:var(--f-mono);font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;
+  background:var(--panel-3);color:var(--ink-dim);border:1px solid var(--line)}
+.pill.hot{background:var(--c4-soft);color:var(--c4-ink);border-color:transparent}
+
+/* ---------- secciones ---------- */
+section{padding:56px 0 10px}
+.shead{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.snum{font-family:var(--f-mono);font-size:13px;font-weight:600;color:var(--ink-ghost)}
+.shead h2{font-size:clamp(25px,3.4vw,33px);font-weight:800}
+.sub{color:var(--ink-dim);max-width:720px;margin-bottom:30px;font-size:18px}
+
+/* ---------- la secuencia ---------- */
+.seq{display:flex;flex-direction:column;gap:16px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:26px 28px 24px;box-shadow:var(--sh-2);position:relative;overflow:hidden}
+.step::before{content:'';position:absolute;inset:0 auto 0 0;width:5px;background:var(--sc)}
+.step .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.step .n{width:34px;height:34px;border-radius:10px;background:var(--sc);color:#fff;flex:none;
+  display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:15px}
+.step h3{font-size:23px;font-weight:800;flex:1;min-width:200px}
+.ap{font-family:var(--f-mono);font-size:12px;font-weight:600;padding:5px 10px;border-radius:7px;
+  background:var(--ssoft);color:var(--sink)}
+.step .q{font-size:18.5px;color:var(--ink);font-weight:500;margin-bottom:12px}
+.step .say{margin:0 0 14px}
+.nono{display:flex;gap:10px;align-items:flex-start;background:var(--bad-soft);
+  border-radius:var(--r);padding:12px 15px;font-size:15.5px;color:var(--bad-ink)}
+.nono b{color:var(--bad-ink)}
+.nono i{font-style:normal;flex:none;font-weight:700}
+
+/* ---------- láminas ---------- */
+.slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.sl{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px}
+.sl .k{font-family:var(--f-mono);font-size:11.5px;font-weight:600;color:var(--ink-ghost);
+  letter-spacing:.08em;display:block;margin-bottom:6px}
+.sl b{display:block;font-family:var(--f-display);font-size:16.5px;margin-bottom:4px}
+.sl span{font-size:14.5px;color:var(--ink-dim);line-height:1.45;display:block}
+.sl.acc{background:var(--brand-soft);border-color:transparent}
+
+/* ---------- confusiones ---------- */
+.conf{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.cf{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);padding:22px 24px}
+.cf h4{font-size:17.5px;font-weight:800;margin-bottom:10px;color:var(--bad-ink)}
+.cf .fix{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line-2);
+  font-size:15.5px;color:var(--ok-ink)}
+.cf .fix b{color:var(--ok-ink)}
+
+/* ---------- formato ---------- */
+.fmt{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:8px 28px;box-shadow:var(--sh-2)}
+.fmt li{list-style:none;padding:16px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
+.fmt li:last-child{border-bottom:none}
+.fmt ul{margin:0;padding:0}
+.fmt .ck{color:var(--ok-ink);font-weight:700;flex:none}
+
+.note{background:var(--warn-soft);border-radius:var(--r-xl);padding:22px 26px;
+  color:var(--warn-ink);font-size:16.5px;margin-top:26px}
+.note b{color:var(--warn-ink)}
+
+footer{margin-top:64px;padding:34px 0 60px;border-top:1px solid var(--line);
+  color:var(--ink-faint);font-size:14.5px}
+footer b{color:var(--ink-dim)}
+/* ---------- qué mira el cliente ---------- */
+.step .mira{margin:14px 0 0;padding:14px 16px;background:var(--panel-3);border-radius:var(--r);
+  font-size:15.5px}
+.step .mira .k{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--sink);display:block;margin-bottom:8px}
+.step .mira ul{margin:0;padding-left:19px}
+.step .mira li{margin-bottom:5px;color:var(--ink-2)}
+.step .mira li:last-child{margin-bottom:0}
+.step .mira li b{color:var(--ink)}
+
+/* ---------- la cadena ---------- */
+.cad{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+.cd{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:14px 16px;border-top:4px solid var(--cc)}
+.cd .k{font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--cc);display:block;margin-bottom:5px}
+.cd b{display:block;font-family:var(--f-display);font-size:15.5px;line-height:1.25;margin-bottom:4px}
+.cd span{font-size:13.8px;color:var(--ink-dim);line-height:1.4;display:block}
+
+@media(max-width:640px){
+  .step{padding:22px 20px}
+  header{padding:42px 0 34px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">People Analytics · ADM10-1 · 2026-02</div>
+    <h1>Entrega 2: cómo armarla</h1>
+    <p class="lead">La Entrega 1 respondía <b>qué problema tiene esta empresa</b>. Esta responde otra cosa:
+      <b>qué van a hacer, por qué eso y no otra cosa, cómo se pone en marcha, cómo sabrán si funcionó
+      y cuánto vale.</b></p>
+    <div class="pills">
+      <span class="pill hot">Viernes 27 de noviembre · 23:59</span>
+      <span class="pill">Mesa del Cliente · Semana 16</span>
+      <span class="pill">12 min de propuesta + 8 de preguntas</span>
+      <span class="pill">Máximo 16 diapositivas</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <div class="shead"><span class="snum">01</span><h2>La cadena que tienen que armar</h2></div>
+  <p class="sub">Toda la entrega es una sola cadena. Cada eslabón tiene que apoyarse en el anterior:
+    si uno se rompe, los que vienen después quedan sin piso, por bien redactados que estén.</p>
+  <div class="cad">
+    <div class="cd" style="--cc:var(--c5)"><span class="k">1</span><b>Proponen</b><span>Una cosa concreta, que sale de un hallazgo suyo.</span></div>
+    <div class="cd" style="--cc:var(--c2)"><span class="k">2</span><b>Comparan</b><span>Contra otros caminos que de verdad podían ganar.</span></div>
+    <div class="cd" style="--cc:var(--c6)"><span class="k">3</span><b>Eligen con números</b><span>Criterios, pesos y matriz. Cuáles sí, cuáles no.</span></div>
+    <div class="cd" style="--cc:var(--c4)"><span class="k">4</span><b>Simulan</b><span>El despliegue mes a mes, con quién y con cuánto.</span></div>
+    <div class="cd" style="--cc:var(--c3)"><span class="k">5</span><b>Miden</b><span>KPI con línea base, meta y responsable.</span></div>
+    <div class="cd" style="--cc:var(--c7)"><span class="k">6</span><b>Lo valorizan</b><span>Cuánto cuesta, cuánto devuelve y en cuánto tiempo.</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">02</span><h2>Los seis momentos, uno por uno</h2></div>
+  <p class="sub">Es el mismo orden con el que los voy a escuchar en la Mesa del Cliente y el mismo
+    con el que está armada la rúbrica. Si los desordenan, el cliente se pierde en el tercero.</p>
+
+  <div class="seq">
+
+    <div class="step" style="--sc:var(--c5);--ssoft:var(--c5-soft);--sink:var(--c5-ink)">
+      <div class="top"><span class="n">1</span><h3>Qué proponen y de dónde sale</h3></div>
+      <p class="q">«Digan qué van a hacer y qué hallazgo del diagnóstico lo justifica.»</p>
+      <p class="say">Abran con la propuesta en <b>una oración</b>: qué cambia, para quiénes y desde cuándo.
+        Enseguida el hallazgo de su Entrega 1 que la sostiene, <b>con su cifra</b>, y el mecanismo:
+        por qué ese cambio debería mover ese indicador y no otro. Cierren diciendo ustedes mismos
+        qué queda fuera del alcance, antes de que lo pregunte el cliente. Y si en octubre les hicieron
+        observaciones, señalen acá qué corrigieron.</p>
+      <div class="mira"><span class="k">Qué voy a buscar</span><ul>
+        <li>La propuesta cabe en <b>una oración</b> con verbo, población y fecha</li>
+        <li>El hallazgo que la justifica aparece <b>con su número</b>, no como recuerdo</li>
+        <li>El mecanismo está dicho, no supuesto</li>
+        <li>Ustedes declaran qué <b>no</b> resuelve la propuesta</li>
+      </ul></div>
+      <div class="nono"><i>✕</i><div>No es un catálogo de buenas prácticas de recursos humanos.
+        Si la propuesta serviría igual para cualquier empresa, <b>no salió de su diagnóstico</b>.</div></div>
+    </div>
+
+    <div class="step" style="--sc:var(--c2);--ssoft:var(--c2-soft);--sink:var(--c2-ink)">
+      <div class="top"><span class="n">2</span><h3>Qué alternativas evaluaron</h3></div>
+      <p class="q">«Qué otros caminos consideraron y con qué evidencia descartaron los que no eligieron.»</p>
+      <p class="say">Traigan <b>al menos tres alternativas</b> que resuelvan el mismo problema por vías
+        distintas. Cada una con su costo estimado, su plazo y lo que le exige al cliente para funcionar.
+        Digan qué resuelve cada una y qué no, sin inflar la suya ni castigar a las otras. Y nombren la
+        evidencia o el supuesto con el que descartaron cada una.</p>
+      <div class="mira"><span class="k">Qué voy a buscar</span><ul>
+        <li>Tres caminos <b>realmente distintos</b>, no tres versiones de lo mismo</li>
+        <li>Costo, plazo y exigencias para cada uno</li>
+        <li>Un descarte sostenido en <b>evidencia</b>, no en conveniencia</li>
+        <li>Que al menos una de las descartadas <b>pudo haber ganado</b></li>
+      </ul></div>
+      <div class="nono"><i>✕</i><div>No son dos opciones de relleno al lado de la buena.
+        <b>Si las descartadas no eran defendibles, no hubo comparación</b>, hubo decoración.</div></div>
+    </div>
+
+    <div class="step" style="--sc:var(--c6);--ssoft:var(--c6-soft);--sink:var(--c6-ink)">
+      <div class="top"><span class="n">3</span><h3>Por qué estas sí y estas no</h3></div>
+      <p class="q">«Con qué números priorizaron, y por qué el cliente debería aceptar esa selección.»</p>
+      <p class="say">Este es el momento que más pesa. Declaren los <b>criterios de decisión antes de
+        puntuar</b>, no después. Pongan el peso de cada criterio con el argumento de por qué pesa eso.
+        Muestren la matriz completa: cada alternativa en cada criterio, y de dónde sale cada puntaje.
+        Den el resultado del ordenamiento y <b>la distancia entre la primera y la segunda</b>. Hagan
+        un análisis de sensibilidad: qué tendría que cambiar en los pesos para que gane otra. Y tracen
+        la línea de corte: qué entra, qué queda fuera y contra qué restricción real del cliente.</p>
+      <div class="mira"><span class="k">Qué voy a buscar</span><ul>
+        <li>Los criterios <b>declarados antes</b> de la puntuación</li>
+        <li>Pesos argumentados, no repartidos por partes iguales «para ser justos»</li>
+        <li>Cada puntaje <b>rastreable</b> hasta su fuente</li>
+        <li>El análisis de sensibilidad: con qué cambio se cae su elección</li>
+        <li>La línea de corte atada a una restricción que el cliente declaró</li>
+      </ul></div>
+      <div class="nono"><i>✕</i><div>No es poner estrellitas en una tabla. Si moviendo un peso cambia
+        la ganadora y ustedes no lo dicen, <b>la matriz está escondiendo la decisión en vez de mostrarla</b>.</div></div>
+    </div>
+
+    <div class="step" style="--sc:var(--c4);--ssoft:var(--c4-soft);--sink:var(--c4-ink)">
+      <div class="top"><span class="n">4</span><h3>Cómo se implementa</h3></div>
+      <p class="q">«Simulen el despliegue: quién, cuándo, con cuánto, y qué pasa si algo falla.»</p>
+      <p class="say">Cronograma con hitos, fechas y <b>responsable por rol</b>, no por nombre de compañero.
+        La población alcanzada en cada etapa, con su número. Lo que hay que tener listo antes de arrancar:
+        datos, sistemas, aprobaciones. El plan de comunicación a las personas afectadas, con el mensaje
+        y el momento. Riesgos con probabilidad, impacto y <b>la respuesta ya preparada</b>. Y los puntos
+        de decisión: en qué hito se evalúa si continuar, ajustar o detener.</p>
+      <div class="mira"><span class="k">Qué voy a buscar</span><ul>
+        <li>El despliegue se puede seguir <b>etapa por etapa</b></li>
+        <li>Cabe dentro del presupuesto que el propio cliente declaró tener</li>
+        <li>Cada riesgo trae <b>su respuesta</b>, no solo su probabilidad</li>
+        <li>Hay puntos de corte definidos antes de empezar</li>
+        <li>El mensaje a las personas afectadas está <b>redactado</b>, no prometido</li>
+      </ul></div>
+      <div class="nono"><i>✕</i><div>No es un Gantt de adorno. Un plan que excede el presupuesto del
+        cliente, o que ignora un requisito de datos que ustedes mismos detectaron, <b>no es un plan</b>.</div></div>
+    </div>
+
+    <div class="step" style="--sc:var(--c3);--ssoft:var(--c3-soft);--sink:var(--c3-ink)">
+      <div class="top"><span class="n">5</span><h3>Cómo sabrán si funcionó</h3></div>
+      <p class="q">«Con qué indicadores lo van a medir, desde qué línea base y cada cuánto.»</p>
+      <p class="say">Un indicador <b>de resultado</b> con su línea base tomada de la Entrega 1.
+        Indicadores <b>de proceso</b> que prueben que la intervención se ejecutó. Para cada uno: meta,
+        plazo, frecuencia de medición y responsable. Un indicador <b>de alerta</b> que avise si aparece
+        un efecto no deseado. Y díganme cómo se podría inflar cada indicador sin que nada mejore,
+        y qué pusieron para evitarlo.</p>
+      <div class="mira"><span class="k">Qué voy a buscar</span><ul>
+        <li>Resultado, proceso y alerta: <b>los tres tipos</b></li>
+        <li>Línea base propia para cada uno, no una cifra de internet</li>
+        <li>Meta, frecuencia y responsable con nombre de cargo</li>
+        <li>Que declaren <b>cómo podría manipularse</b> cada indicador</li>
+      </ul></div>
+      <div class="nono"><i>✕</i><div>No es un tablero lleno de indicadores de actividad.
+        «Capacitamos a 300 personas» dice que <b>gastaron el presupuesto</b>, no que algo cambió.</div></div>
+    </div>
+
+    <div class="step" style="--sc:var(--c7);--ssoft:var(--c7-soft);--sink:var(--c7-ink)">
+      <div class="top"><span class="n">6</span><h3>Cuánto vale para el cliente</h3></div>
+      <p class="q">«Cuánto cuesta, cuánto devuelve, en cuánto tiempo y bajo qué supuestos.»</p>
+      <p class="say">La inversión total desagregada: <b>qué se paga una vez y qué se repite</b>.
+        El beneficio cuantificado sobre su propia línea base, con el supuesto que lo sostiene a la vista.
+        El flujo en el horizonte que corresponda, con su periodo de recuperación. Al menos un indicador
+        financiero <b>calculado y explicado</b>, no solo citado. Un escenario conservador y uno optimista,
+        diciendo qué los separa. Y el <b>costo de no hacer nada</b>, para que la comparación sea contra algo.</p>
+      <div class="mira"><span class="k">Qué voy a buscar</span><ul>
+        <li>Inversión desagregada entre lo que se paga una vez y lo recurrente</li>
+        <li>El beneficio calculado sobre <b>su</b> línea base, con el supuesto declarado</li>
+        <li>Periodo de recuperación y un indicador financiero explicado</li>
+        <li>Dos escenarios y lo que los separa</li>
+        <li>El costo de no decidir, cuantificado</li>
+      </ul></div>
+      <div class="nono"><i>✕</i><div>No es poner un VAN al final porque queda bien.
+        <b>Un beneficio sin supuesto declarado es una cifra inventada con formato de Excel.</b></div></div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">03</span><h2>Las 16 diapositivas</h2></div>
+  <p class="sub">Un reparto que funciona para 12 minutos. No es obligatorio, pero si se alejan mucho
+    de estas proporciones, casi siempre es porque algo está de más.</p>
+  <div class="slides">
+    <div class="sl"><span class="k">1</span><b>Portada</b><span>Firma, caso, integrantes y las ocho especialidades.</span></div>
+    <div class="sl acc"><span class="k">2</span><b>Resumen ejecutivo</b><span>Qué proponen, cuánto cuesta, cuánto devuelve y el riesgo principal, en una sola vista.</span></div>
+    <div class="sl"><span class="k">3</span><b>De dónde sale</b><span>El hallazgo con su cifra y qué corrigieron de la Entrega 1.</span></div>
+    <div class="sl"><span class="k">4</span><b>La propuesta</b><span>La oración, la población y el mecanismo.</span></div>
+    <div class="sl"><span class="k">5 – 6</span><b>Las alternativas</b><span>Los tres caminos con su costo, su plazo y lo que exigen.</span></div>
+    <div class="sl"><span class="k">7 – 9</span><b>La elección</b><span>Criterios, pesos, matriz, sensibilidad y línea de corte.</span></div>
+    <div class="sl"><span class="k">10 – 11</span><b>La implementación</b><span>Cronograma, responsables, riesgos y puntos de decisión.</span></div>
+    <div class="sl"><span class="k">12</span><b>Los KPI</b><span>Resultado, proceso y alerta, con línea base y meta.</span></div>
+    <div class="sl"><span class="k">13 – 15</span><b>El caso económico</b><span>Inversión, beneficio, recuperación, escenarios y el costo de no hacer nada.</span></div>
+    <div class="sl"><span class="k">16</span><b>Cierre</b><span>Lo que el cliente tiene que recordar. Una idea, no un resumen.</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">04</span><h2>Las seis confusiones de siempre</h2></div>
+  <p class="sub">Esto es lo que más se repite al corregir. Si revisan solo seis cosas antes de entregar,
+    que sean estas.</p>
+  <div class="conf">
+    <div class="cf">
+      <h4>Elegir primero y justificar después</h4>
+      <p>Ya sabían qué querían proponer y armaron la matriz para que ganara. Se nota porque los
+        pesos aparecen sin argumento y las descartadas son de relleno.</p>
+      <div class="fix"><b>Arreglo:</b> escriban los criterios y los pesos <b>antes</b> de puntuar nada,
+        y después acepten lo que salga. Si no les gusta el resultado, discutan los criterios, no los puntajes.</div>
+    </div>
+    <div class="cf">
+      <h4>Una matriz sin sensibilidad</h4>
+      <p>La alternativa ganó por dos décimas y nadie dice qué pasa si un peso se mueve un punto.
+        El cliente lo va a preguntar.</p>
+      <div class="fix"><b>Arreglo:</b> muevan los pesos y vean si la ganadora aguanta. Si no aguanta,
+        <b>díganlo</b>: es un hallazgo, no una falla.</div>
+    </div>
+    <div class="cf">
+      <h4>Confundir propuesta con intención</h4>
+      <p>«Se sugiere fortalecer la inducción» describe una dirección, no una propuesta.
+        Nadie puede aprobarla ni ponerle fecha.</p>
+      <div class="fix"><b>Arreglo:</b> escríbanla con verbo, población, responsable y fecha.
+        Si no cabe en una oración, todavía no decidieron.</div>
+    </div>
+    <div class="cf">
+      <h4>Medir actividad y llamarlo resultado</h4>
+      <p>«Capacitamos a 300 personas» es ejecución, no efecto. Un tablero lleno de
+        indicadores de proceso no prueba nada.</p>
+      <div class="fix"><b>Arreglo:</b> por cada indicador de proceso, pongan el de resultado
+        que le corresponde, con línea base y meta.</div>
+    </div>
+    <div class="cf">
+      <h4>Un caso económico sin supuestos</h4>
+      <p>Aparece un beneficio anual y no se sabe de dónde salió, o se compara contra una cifra
+        que no es de su propia Entrega 1.</p>
+      <div class="fix"><b>Arreglo:</b> al lado de cada cifra, la línea que dice de dónde sale.
+        Si el supuesto es discutible, mejor: pónganlo en el escenario conservador.</div>
+    </div>
+    <div class="cf">
+      <h4>Romper la coherencia con la Entrega 1</h4>
+      <p>La propuesta resuelve un problema distinto del que diagnosticaron en octubre.</p>
+      <div class="fix"><b>Arreglo:</b> lean su diagnóstico y su propuesta seguidos. Si no se reconocen
+        como el mismo trabajo, <b>el primer momento no puede llegar a Logrado</b>, y eso arrastra a los demás.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="snum">05</span><h2>Lo formal</h2></div>
+  <p class="sub">Esto no se negocia y no cuesta nada cumplirlo.</p>
+  <div class="fmt"><ul>
+    <li><span class="ck">✓</span><div>Presentación de <b>máximo 16 diapositivas</b>, con la Entrega 1 corregida según las observaciones del cliente.</div></li>
+    <li><span class="ck">✓</span><div><b>Diapositiva 2 de resumen ejecutivo</b>: propuesta, costo, retorno y riesgo principal en una sola vista.</div></li>
+    <li><span class="ck">✓</span><div><b>Anexo con la matriz de decisión completa</b>: criterios, pesos, puntajes, fuente de cada puntaje y el análisis de sensibilidad.</div></li>
+    <li><span class="ck">✓</span><div><b>Anexo con el modelo económico</b> en hoja de cálculo, con los supuestos en celdas visibles y no incrustados en las fórmulas.</div></li>
+    <li><span class="ck">✓</span><div>Mesa del Cliente en la <b>Semana 16</b>: 12 minutos de propuesta y 8 de preguntas.</div></li>
+    <li><span class="ck">✓</span><div>El cliente pregunta a quien quiera del equipo. <b>No vale «esa parte la hizo mi compañero»</b>.</div></li>
+  </ul></div>
+  <div class="note"><b>La regla que decide la nota:</b> la propuesta se juzga por la cadena completa.
+    Una elección bien argumentada sobre alternativas de relleno no se sostiene, y un caso económico
+    impecable sobre una propuesta que no sale del diagnóstico tampoco. <b>El sustento vale esté donde
+    esté</b> —en la lámina, en el anexo o en la hoja de cálculo—, pero tiene que estar.</div>
+</section>
+
+<footer>
+  <div><b>Entrega 2 · De los hallazgos a la decisión</b> · People Analytics · Gobierno de Personas · UCSP · 2026-02</div>
+  <div style="margin-top:6px">Esta página resume cómo armarla. Los cuatro niveles de cada criterio
+    están en la mesa de calificación: entren con su DNI y los verán tal como los voy a aplicar.</div>
+</footer>
+
+</div>
+</body>
+</html>
