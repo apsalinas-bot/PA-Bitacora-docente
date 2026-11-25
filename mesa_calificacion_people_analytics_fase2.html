@@ -5,7 +5,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* Mismo sistema visual del curso: Plus Jakarta Sans de despliegue, Inter de lectura,
-   IBM Plex Mono para rótulos y cifras. Cada uno de los seis momentos del correo
+   IBM Plex Mono para rótulos y cifras. Cada uno de los siete momentos del correo
    lleva su propio color, para que la hoja se lea de un vistazo. Modo claro único. */
 :root{
   color-scheme:light;
@@ -610,7 +610,20 @@ const AP = [
  niv:["No hay evaluación económica, o hay cifras sueltas sin cuenta que las relacione.",
   "Hay costo y beneficio, pero el beneficio no declara su supuesto o la inversión sigue siendo referencial.",
   "La cuenta está completa y el retorno se calcula, aunque se muestra un solo escenario o no se contrasta con el criterio de aprobación del cliente.",
-  "Inversión y beneficio se trazan hasta su fuente, el supuesto que produce el beneficio está declarado con su rango, hay equilibrio o recuperación con la cuenta a la vista, se muestran los escenarios incluido el malo, y el resultado se contrasta con el criterio del cliente."]}
+  "Inversión y beneficio se trazan hasta su fuente, el supuesto que produce el beneficio está declarado con su rango, hay equilibrio o recuperación con la cuenta a la vista, se muestran los escenarios incluido el malo, y el resultado se contrasta con el criterio del cliente."]},
+{id:"M7",x:1,paso:7,tit:"La defensa",
+ preg:"¿Respondieron lo que el cliente preguntó, con lo que tenían, sin inventar?",
+ oye:"Lo que pedí: «respondan lo que les pregunte, con lo que tengan a la mano».",
+ evid:["Responden la pregunta que se hizo, no la que les habría gustado que hicieran",
+  "Se apoyan en sus propios anexos y los encuentran cuando hace falta",
+  "Reconocen lo que no saben y dicen cómo lo averiguarían",
+  "Responde quien corresponde por su rol, sin que el socio conteste todo",
+  "Sostienen una cifra cuando se la cuestionan, o la corrigen en el momento"],
+ noEs:"No es tener respuesta para todo. Es sostener lo que afirmaron y admitir lo que falta.",
+ niv:["No responden, improvisan cifras, o contradicen lo que acaban de presentar.",
+  "Responden en general, pero se apoyan en opiniones, o no encuentran el respaldo que dicen tener.",
+  "Responden con evidencia y reconocen lo que no saben, aunque el reparto de roles se improvisa sobre la marcha.",
+  "Cada pregunta la responde quien corresponde, con la evidencia a la mano, y lo que no saben lo dicen junto con el plan para averiguarlo."]}
 ];;
 const PASOS = [
  {n:1, t:"De dónde partimos",
@@ -624,7 +637,9 @@ const PASOS = [
  {n:5, t:"Cómo se mide",
   cita:"definan los indicadores con línea base, meta, frecuencia y responsable"},
  {n:6, t:"Cuánto cuesta y cuánto rinde",
-  cita:"la evaluación económica: cuánto cuesta, cuánto rinde y en cuánto tiempo se recupera"}
+  cita:"la evaluación económica: cuánto cuesta, cuánto rinde y en cuánto tiempo se recupera"},
+ {n:7, t:"La defensa",
+  cita:"respondan lo que les pregunte, con lo que tengan a la mano"}
 ];;
 const FLAGS = [
  "Se pasó de los 20 minutos",
@@ -703,7 +718,7 @@ const NOMINA = [
 
 /* Informe en PDF generado en el navegador, para que el enlace del artefacto no
    dependa del cuadro de impresión (que el visor bloquea). */
-const MOMCOL = {1:[37,99,235], 2:[124,58,237], 3:[180,83,9], 4:[225,29,72], 5:[14,165,165], 6:[21,128,61]};
+const MOMCOL = {1:[37,99,235], 2:[124,58,237], 3:[180,83,9], 4:[225,29,72], 5:[14,165,165], 6:[21,128,61], 7:[235,104,52]};
 const NIVCOL = [[148,163,184],[190,18,60],[180,83,9],[15,118,110],[21,128,61]];
 const TINTA = [15,32,56], GRIS = [90,110,134], TENUE = [132,150,172];
 
@@ -730,7 +745,7 @@ function informePDF(f){
  y += 7;
  txt('Mesa del Cliente · Fase 2 · Propuesta', M, W, 17, 'bold', TINTA, 1.1);
  y += 1.5;
- txt('Exposición ante el cliente · 20 minutos y ronda de preguntas · los seis momentos corresponden '
+ txt('Exposición ante el cliente · 20 minutos y ronda de preguntas · los siete momentos corresponden '
    + 'al correo «Consideraciones · Exposiciones con el cliente» del 29 de setiembre',
    M, W, 8, 'normal', GRIS, 1.3);
  y += 2.5;
@@ -834,7 +849,7 @@ function informePDF(f){
 const MAXP = AP.reduce((a,b)=>a+b.x*4,0);
 const porPaso = n => AP.filter(a=>a.paso===n);
 const ptsPaso = n => porPaso(n).reduce((s,a)=>s+a.x*4,0);
-const MOM = {1:'c5', 2:'c2', 3:'c6', 4:'c4', 5:'c3', 6:'c7'};
+const MOM = {1:'c5', 2:'c2', 3:'c6', 4:'c4', 5:'c3', 6:'c7', 7:'c1'};
 const vars = n => `--mc:var(--${MOM[n]});--ms:var(--${MOM[n]}-soft)`;
 const slug = f => f.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
                    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -1081,7 +1096,7 @@ function cabeceraImpresion(){
  const e0 = est(), sinCal = AP.filter(a=>e0.n[a.id]===undefined).map(a=>a.id);
  $('#imp').innerHTML = `<div class="et">People Analytics · AD24-3171 · 2026-02</div>
   <h1>Mesa del Cliente · Fase 2 · Propuesta</h1>
-  <div class="sub">Exposición ante el cliente · 20 minutos y ronda de preguntas · los seis momentos
+  <div class="sub">Exposición ante el cliente · 20 minutos y ronda de preguntas · los siete momentos
   corresponden al correo «Consideraciones · Exposiciones con el cliente» del 29 de setiembre</div>
   <div class="caja">
    <div><span>Consultora</span><b>${esc(m.f)}</b></div>
